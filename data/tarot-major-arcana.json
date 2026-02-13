@@ -1,0 +1,314 @@
+[
+    {
+        "number": 0,
+        "name_en": "The Fool",
+        "name_kr": "바보",
+        "arcana_type": "major",
+        "keywords": [
+            "new beginnings",
+            "innocence",
+            "spontaneity",
+            "free spirit"
+        ],
+        "description_upright": "새로운 시작, 순수함, 자유로운 영혼. 미지의 여정을 향한 첫 발걸음.",
+        "description_reversed": "무모함, 위험한 선택, 준비 부족"
+    },
+    {
+        "number": 1,
+        "name_en": "The Magician",
+        "name_kr": "마법사",
+        "arcana_type": "major",
+        "keywords": [
+            "manifestation",
+            "resourcefulness",
+            "power",
+            "inspired action"
+        ],
+        "description_upright": "창조력, 의지력, 능력의 발현. 원하는 것을 현실로 만드는 힘.",
+        "description_reversed": "조작, 속임수, 재능의 낭비"
+    },
+    {
+        "number": 2,
+        "name_en": "The High Priestess",
+        "name_kr": "여사제",
+        "arcana_type": "major",
+        "keywords": [
+            "intuition",
+            "sacred knowledge",
+            "divine feminine",
+            "subconscious"
+        ],
+        "description_upright": "직관, 내면의 지혜, 신성한 여성성. 보이지 않는 진실을 아는 힘.",
+        "description_reversed": "비밀, 억압된 감정, 직관 무시"
+    },
+    {
+        "number": 3,
+        "name_en": "The Empress",
+        "name_kr": "여황제",
+        "arcana_type": "major",
+        "keywords": [
+            "femininity",
+            "beauty",
+            "nature",
+            "nurturing",
+            "abundance"
+        ],
+        "description_upright": "풍요, 창조성, 자연과의 연결. 양육하고 키우는 에너지.",
+        "description_reversed": "의존성, 질식, 창조적 블록"
+    },
+    {
+        "number": 4,
+        "name_en": "The Emperor",
+        "name_kr": "황제",
+        "arcana_type": "major",
+        "keywords": [
+            "authority",
+            "structure",
+            "control",
+            "fatherhood"
+        ],
+        "description_upright": "권위, 구조, 리더십. 안정적인 기반을 만드는 힘.",
+        "description_reversed": "독재, 경직성, 통제 상실"
+    },
+    {
+        "number": 5,
+        "name_en": "The Hierophant",
+        "name_kr": "교황",
+        "arcana_type": "major",
+        "keywords": [
+            "spiritual wisdom",
+            "tradition",
+            "conformity",
+            "institutions"
+        ],
+        "description_upright": "전통, 영적 지혜, 가르침. 확립된 시스템 안에서의 배움.",
+        "description_reversed": "반항, 비전통적, 제도에 대한 의문"
+    },
+    {
+        "number": 6,
+        "name_en": "The Lovers",
+        "name_kr": "연인",
+        "arcana_type": "major",
+        "keywords": [
+            "love",
+            "harmony",
+            "relationships",
+            "values alignment"
+        ],
+        "description_upright": "사랑, 조화, 중요한 선택. 가치관의 일치.",
+        "description_reversed": "불균형, 가치관 충돌, 관계 문제"
+    },
+    {
+        "number": 7,
+        "name_en": "The Chariot",
+        "name_kr": "전차",
+        "arcana_type": "major",
+        "keywords": [
+            "control",
+            "willpower",
+            "success",
+            "determination"
+        ],
+        "description_upright": "의지력, 승리, 방향성. 상반된 힘을 통제하는 능력.",
+        "description_reversed": "통제 상실, 방향성 결여, 공격성"
+    },
+    {
+        "number": 8,
+        "name_en": "Strength",
+        "name_kr": "힘",
+        "arcana_type": "major",
+        "keywords": [
+            "strength",
+            "courage",
+            "patience",
+            "compassion"
+        ],
+        "description_upright": "내면의 힘, 용기, 인내. 부드러움으로 이기는 힘.",
+        "description_reversed": "자기 의심, 나약함, 자제력 부족"
+    },
+    {
+        "number": 9,
+        "name_en": "The Hermit",
+        "name_kr": "은둔자",
+        "arcana_type": "major",
+        "keywords": [
+            "soul searching",
+            "introspection",
+            "inner guidance",
+            "solitude"
+        ],
+        "description_upright": "내면 탐구, 고독, 영적 깨달음. 홀로 찾는 진리.",
+        "description_reversed": "고립, 외로움, 철수"
+    },
+    {
+        "number": 10,
+        "name_en": "Wheel of Fortune",
+        "name_kr": "운명의 수레바퀴",
+        "arcana_type": "major",
+        "keywords": [
+            "good luck",
+            "karma",
+            "life cycles",
+            "destiny"
+        ],
+        "description_upright": "운명, 변화의 주기, 행운. 삶의 순환.",
+        "description_reversed": "불운, 저항, 외부 영향"
+    },
+    {
+        "number": 11,
+        "name_en": "Justice",
+        "name_kr": "정의",
+        "arcana_type": "major",
+        "keywords": [
+            "justice",
+            "fairness",
+            "truth",
+            "cause and effect"
+        ],
+        "description_upright": "정의, 공정함, 진실. 원인과 결과의 법칙.",
+        "description_reversed": "불공정, 책임 회피, 진실 왜곡"
+    },
+    {
+        "number": 12,
+        "name_en": "The Hanged Man",
+        "name_kr": "매달린 사람",
+        "arcana_type": "major",
+        "keywords": [
+            "pause",
+            "surrender",
+            "letting go",
+            "new perspective"
+        ],
+        "description_upright": "멈춤, 항복, 새로운 관점. 기다림의 지혜.",
+        "description_reversed": "지연, 저항, 희생의 거부"
+    },
+    {
+        "number": 13,
+        "name_en": "Death",
+        "name_kr": "죽음",
+        "arcana_type": "major",
+        "keywords": [
+            "endings",
+            "change",
+            "transformation",
+            "transition"
+        ],
+        "description_upright": "변화, 끝과 시작, 재탄생. 필요한 종결.",
+        "description_reversed": "변화에 대한 저항, 정체, 집착"
+    },
+    {
+        "number": 14,
+        "name_en": "Temperance",
+        "name_kr": "절제",
+        "arcana_type": "major",
+        "keywords": [
+            "balance",
+            "moderation",
+            "patience",
+            "purpose"
+        ],
+        "description_upright": "균형, 조화, 절제. 중용의 길.",
+        "description_reversed": "불균형, 과잉, 자제력 부족"
+    },
+    {
+        "number": 15,
+        "name_en": "The Devil",
+        "name_kr": "악마",
+        "arcana_type": "major",
+        "keywords": [
+            "shadow self",
+            "attachment",
+            "addiction",
+            "restriction"
+        ],
+        "description_upright": "속박, 중독, 그림자. 물질적 집착.",
+        "description_reversed": "해방, 자각, 속박으로부터의 탈출"
+    },
+    {
+        "number": 16,
+        "name_en": "The Tower",
+        "name_kr": "탑",
+        "arcana_type": "major",
+        "keywords": [
+            "sudden change",
+            "upheaval",
+            "chaos",
+            "revelation"
+        ],
+        "description_upright": "급격한 변화, 붕괴, 계시. 거짓 기반의 파괴.",
+        "description_reversed": "재난 회피, 변화에 대한 두려움"
+    },
+    {
+        "number": 17,
+        "name_en": "The Star",
+        "name_kr": "별",
+        "arcana_type": "major",
+        "keywords": [
+            "hope",
+            "faith",
+            "purpose",
+            "renewal",
+            "spirituality"
+        ],
+        "description_upright": "희망, 영감, 평온. 어둠 뒤의 빛.",
+        "description_reversed": "절망, 신념 상실, 단절"
+    },
+    {
+        "number": 18,
+        "name_en": "The Moon",
+        "name_kr": "달",
+        "arcana_type": "major",
+        "keywords": [
+            "illusion",
+            "fear",
+            "anxiety",
+            "subconscious",
+            "intuition"
+        ],
+        "description_upright": "환상, 불안, 무의식. 보이지 않는 것에 대한 두려움.",
+        "description_reversed": "혼란 해소, 진실 드러남"
+    },
+    {
+        "number": 19,
+        "name_en": "The Sun",
+        "name_kr": "태양",
+        "arcana_type": "major",
+        "keywords": [
+            "positivity",
+            "fun",
+            "warmth",
+            "success",
+            "vitality"
+        ],
+        "description_upright": "기쁨, 성공, 활력. 순수한 긍정의 에너지.",
+        "description_reversed": "과도한 낙관, 우울, 내면의 아이 상처"
+    },
+    {
+        "number": 20,
+        "name_en": "Judgement",
+        "name_kr": "심판",
+        "arcana_type": "major",
+        "keywords": [
+            "judgement",
+            "rebirth",
+            "inner calling",
+            "absolution"
+        ],
+        "description_upright": "재탄생, 내면의 부름, 용서. 과거의 평가와 새 시작.",
+        "description_reversed": "자기 의심, 내면의 비판, 용서 거부"
+    },
+    {
+        "number": 21,
+        "name_en": "The World",
+        "name_kr": "세계",
+        "arcana_type": "major",
+        "keywords": [
+            "completion",
+            "accomplishment",
+            "travel",
+            "fulfillment"
+        ],
+        "description_upright": "완성, 성취, 통합. 한 주기의 완결.",
+        "description_reversed": "미완성, 지연, 목표 재설정 필요"
+    }
+]

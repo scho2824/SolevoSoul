@@ -1,0 +1,199 @@
+[
+    {
+        "number": 1,
+        "name_en": "Ace of Cups",
+        "name_kr": "컵 에이스",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "love",
+            "new relationships",
+            "compassion",
+            "creativity"
+        ],
+        "description_upright": "새로운 사랑, 감정의 시작, 창의성",
+        "description_reversed": "감정 억압, 막힌 창의성"
+    },
+    {
+        "number": 2,
+        "name_en": "Two of Cups",
+        "name_kr": "컵 2",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "unity",
+            "partnership",
+            "connection"
+        ],
+        "description_upright": "파트너십, 조화, 상호 존중",
+        "description_reversed": "불균형, 긴장된 관계"
+    },
+    {
+        "number": 3,
+        "name_en": "Three of Cups",
+        "name_kr": "컵 3",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "celebration",
+            "friendship",
+            "community"
+        ],
+        "description_upright": "축하, 우정, 공동체",
+        "description_reversed": "과잉, 고립"
+    },
+    {
+        "number": 4,
+        "name_en": "Four of Cups",
+        "name_kr": "컵 4",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "meditation",
+            "contemplation",
+            "apathy"
+        ],
+        "description_upright": "명상, 무관심, 재평가",
+        "description_reversed": "새로운 기회 인식"
+    },
+    {
+        "number": 5,
+        "name_en": "Five of Cups",
+        "name_kr": "컵 5",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "regret",
+            "loss",
+            "disappointment"
+        ],
+        "description_upright": "후회, 상실, 슬픔",
+        "description_reversed": "수용, 앞으로 나아감"
+    },
+    {
+        "number": 6,
+        "name_en": "Six of Cups",
+        "name_kr": "컵 6",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "nostalgia",
+            "childhood memories",
+            "innocence"
+        ],
+        "description_upright": "향수, 순수함, 과거 회상",
+        "description_reversed": "과거에 집착"
+    },
+    {
+        "number": 7,
+        "name_en": "Seven of Cups",
+        "name_kr": "컵 7",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "choices",
+            "illusion",
+            "fantasy"
+        ],
+        "description_upright": "환상, 선택의 혼란",
+        "description_reversed": "명확성, 결정"
+    },
+    {
+        "number": 8,
+        "name_en": "Eight of Cups",
+        "name_kr": "컵 8",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "disappointment",
+            "abandonment",
+            "withdrawal"
+        ],
+        "description_upright": "떠남, 포기, 새로운 길 탐색",
+        "description_reversed": "두려움, 회피"
+    },
+    {
+        "number": 9,
+        "name_en": "Nine of Cups",
+        "name_kr": "컵 9",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "contentment",
+            "satisfaction",
+            "gratitude"
+        ],
+        "description_upright": "만족, 소원 성취",
+        "description_reversed": "탐욕, 불만족"
+    },
+    {
+        "number": 10,
+        "name_en": "Ten of Cups",
+        "name_kr": "컵 10",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "harmony",
+            "happiness",
+            "alignment"
+        ],
+        "description_upright": "조화, 행복, 가족",
+        "description_reversed": "불화, 가치관 충돌"
+    },
+    {
+        "number": 11,
+        "name_en": "Page of Cups",
+        "name_kr": "컵 시종",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "creativity",
+            "intuition",
+            "curiosity"
+        ],
+        "description_upright": "창의적 메시지, 직관",
+        "description_reversed": "감정적 미성숙"
+    },
+    {
+        "number": 12,
+        "name_en": "Knight of Cups",
+        "name_kr": "컵 기사",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "romance",
+            "charm",
+            "imagination"
+        ],
+        "description_upright": "낭만, 매력, 제안",
+        "description_reversed": "비현실적, 변덕"
+    },
+    {
+        "number": 13,
+        "name_en": "Queen of Cups",
+        "name_kr": "컵 여왕",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "compassion",
+            "calm",
+            "comfort"
+        ],
+        "description_upright": "공감, 직관, 양육",
+        "description_reversed": "감정적 불안정"
+    },
+    {
+        "number": 14,
+        "name_en": "King of Cups",
+        "name_kr": "컵 왕",
+        "suit": "cups",
+        "arcana_type": "minor",
+        "keywords": [
+            "emotional balance",
+            "diplomacy",
+            "compassion"
+        ],
+        "description_upright": "감정적 성숙, 외교",
+        "description_reversed": "감정 조작, 변덕"
+    }
+]

@@ -1,0 +1,199 @@
+[
+    {
+        "number": 1,
+        "name_en": "Ace of Wands",
+        "name_kr": "완드 에이스",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "inspiration",
+            "new opportunities",
+            "growth",
+            "potential"
+        ],
+        "description_upright": "새로운 영감, 창조적 에너지, 성장의 기회",
+        "description_reversed": "지연된 시작, 창의성 부족"
+    },
+    {
+        "number": 2,
+        "name_en": "Two of Wands",
+        "name_kr": "완드 2",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "planning",
+            "decisions",
+            "discovery"
+        ],
+        "description_upright": "미래 계획, 결정의 순간",
+        "description_reversed": "계획 부족, 두려움"
+    },
+    {
+        "number": 3,
+        "name_en": "Three of Wands",
+        "name_kr": "완드 3",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "expansion",
+            "foresight",
+            "overseas opportunities"
+        ],
+        "description_upright": "확장, 진전, 장기적 비전",
+        "description_reversed": "지연, 좌절"
+    },
+    {
+        "number": 4,
+        "name_en": "Four of Wands",
+        "name_kr": "완드 4",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "celebration",
+            "harmony",
+            "homecoming"
+        ],
+        "description_upright": "축하, 안정, 성취",
+        "description_reversed": "불안정, 갈등"
+    },
+    {
+        "number": 5,
+        "name_en": "Five of Wands",
+        "name_kr": "완드 5",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "conflict",
+            "competition",
+            "tension"
+        ],
+        "description_upright": "경쟁, 갈등, 도전",
+        "description_reversed": "내적 갈등, 회피"
+    },
+    {
+        "number": 6,
+        "name_en": "Six of Wands",
+        "name_kr": "완드 6",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "success",
+            "public recognition",
+            "victory"
+        ],
+        "description_upright": "승리, 인정, 자신감",
+        "description_reversed": "자만, 인정 부족"
+    },
+    {
+        "number": 7,
+        "name_en": "Seven of Wands",
+        "name_kr": "완드 7",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "challenge",
+            "perseverance",
+            "defense"
+        ],
+        "description_upright": "방어, 인내, 도전 극복",
+        "description_reversed": "압도됨, 포기"
+    },
+    {
+        "number": 8,
+        "name_en": "Eight of Wands",
+        "name_kr": "완드 8",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "speed",
+            "action",
+            "movement"
+        ],
+        "description_upright": "빠른 진전, 행동",
+        "description_reversed": "지연, 좌절"
+    },
+    {
+        "number": 9,
+        "name_en": "Nine of Wands",
+        "name_kr": "완드 9",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "resilience",
+            "persistence",
+            "boundaries"
+        ],
+        "description_upright": "회복력, 경계, 마지막 노력",
+        "description_reversed": "편집증, 방어적"
+    },
+    {
+        "number": 10,
+        "name_en": "Ten of Wands",
+        "name_kr": "완드 10",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "burden",
+            "responsibility",
+            "hard work"
+        ],
+        "description_upright": "부담, 책임, 과로",
+        "description_reversed": "짐 내려놓기, 위임"
+    },
+    {
+        "number": 11,
+        "name_en": "Page of Wands",
+        "name_kr": "완드 시종",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "exploration",
+            "excitement",
+            "freedom"
+        ],
+        "description_upright": "탐험, 열정, 자유로운 정신",
+        "description_reversed": "무모함, 산만함"
+    },
+    {
+        "number": 12,
+        "name_en": "Knight of Wands",
+        "name_kr": "완드 기사",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "energy",
+            "passion",
+            "adventure"
+        ],
+        "description_upright": "열정, 모험, 충동적 행동",
+        "description_reversed": "무모함, 조급함"
+    },
+    {
+        "number": 13,
+        "name_en": "Queen of Wands",
+        "name_kr": "완드 여왕",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "confidence",
+            "independence",
+            "determination"
+        ],
+        "description_upright": "자신감, 독립성, 카리스마",
+        "description_reversed": "질투, 이기심"
+    },
+    {
+        "number": 14,
+        "name_en": "King of Wands",
+        "name_kr": "완드 왕",
+        "suit": "wands",
+        "arcana_type": "minor",
+        "keywords": [
+            "leadership",
+            "vision",
+            "entrepreneur"
+        ],
+        "description_upright": "리더십, 비전, 기업가 정신",
+        "description_reversed": "독재, 오만"
+    }
+]

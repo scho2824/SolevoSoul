@@ -1,0 +1,198 @@
+[
+    {
+        "number": 1,
+        "name_en": "Ace of Pentacles",
+        "name_kr": "펜타클 에이스",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "opportunity",
+            "prosperity",
+            "new venture"
+        ],
+        "description_upright": "새로운 재정적 기회, 번영",
+        "description_reversed": "기회 상실, 탐욕"
+    },
+    {
+        "number": 2,
+        "name_en": "Two of Pentacles",
+        "name_kr": "펜타클 2",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "balance",
+            "adaptability",
+            "time management"
+        ],
+        "description_upright": "균형, 우선순위, 적응",
+        "description_reversed": "불균형, 과부하"
+    },
+    {
+        "number": 3,
+        "name_en": "Three of Pentacles",
+        "name_kr": "펜타클 3",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "teamwork",
+            "collaboration",
+            "learning"
+        ],
+        "description_upright": "협업, 기술, 학습",
+        "description_reversed": "불협화음, 낮은 품질"
+    },
+    {
+        "number": 4,
+        "name_en": "Four of Pentacles",
+        "name_kr": "펜타클 4",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "control",
+            "stability",
+            "possession"
+        ],
+        "description_upright": "통제, 안정, 소유",
+        "description_reversed": "탐욕, 집착"
+    },
+    {
+        "number": 5,
+        "name_en": "Five of Pentacles",
+        "name_kr": "펜타클 5",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "hardship",
+            "poverty",
+            "insecurity"
+        ],
+        "description_upright": "어려움, 재정 문제",
+        "description_reversed": "회복, 개선"
+    },
+    {
+        "number": 6,
+        "name_en": "Six of Pentacles",
+        "name_kr": "펜타클 6",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "generosity",
+            "charity",
+            "sharing"
+        ],
+        "description_upright": "관대함, 나눔, 균형",
+        "description_reversed": "이기심, 빚"
+    },
+    {
+        "number": 7,
+        "name_en": "Seven of Pentacles",
+        "name_kr": "펜타클 7",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "perseverance",
+            "investment",
+            "reward"
+        ],
+        "description_upright": "인내, 투자, 장기적 비전",
+        "description_reversed": "조급함, 낮은 수익"
+    },
+    {
+        "number": 8,
+        "name_en": "Eight of Pentacles",
+        "name_kr": "펜타클 8",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "apprenticeship",
+            "skill development",
+            "quality"
+        ],
+        "description_upright": "기술 개발, 노력, 품질",
+        "description_reversed": "완벽주의, 낮은 품질"
+    },
+    {
+        "number": 9,
+        "name_en": "Nine of Pentacles",
+        "name_kr": "펜타클 9",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "abundance",
+            "luxury",
+            "self-sufficiency"
+        ],
+        "description_upright": "풍요, 독립, 성취",
+        "description_reversed": "과시, 재정 의존"
+    },
+    {
+        "number": 10,
+        "name_en": "Ten of Pentacles",
+        "name_kr": "펜타클 10",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "wealth",
+            "inheritance",
+            "family"
+        ],
+        "description_upright": "부, 유산, 안정",
+        "description_reversed": "재정 손실, 가족 분쟁"
+    },
+    {
+        "number": 11,
+        "name_en": "Page of Pentacles",
+        "name_kr": "펜타클 시종",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "manifestation",
+            "opportunity",
+            "new venture"
+        ],
+        "description_upright": "새로운 기회, 학습",
+        "description_reversed": "게으름, 목표 부족"
+    },
+    {
+        "number": 12,
+        "name_en": "Knight of Pentacles",
+        "name_kr": "펜타클 기사",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "efficiency",
+            "routine",
+            "conservatism"
+        ],
+        "description_upright": "근면, 신뢰성, 책임",
+        "description_reversed": "게으름, 완벽주의"
+    },
+    {
+        "number": 13,
+        "name_en": "Queen of Pentacles",
+        "name_kr": "펜타클 여왕",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "nurturing",
+            "practical",
+            "providing"
+        ],
+        "description_upright": "양육, 실용성, 풍요",
+        "description_reversed": "자기 중심, 질투"
+    },
+    {
+        "number": 14,
+        "name_en": "King of Pentacles",
+        "name_kr": "펜타클 왕",
+        "suit": "pentacles",
+        "arcana_type": "minor",
+        "keywords": [
+            "wealth",
+            "business",
+            "leadership"
+        ],
+        "description_upright": "부, 성공, 리더십",
+        "description_reversed": "탐욕, 물질주의"
+    }
+]

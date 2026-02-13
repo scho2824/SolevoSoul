@@ -1,0 +1,198 @@
+[
+    {
+        "number": 1,
+        "name_en": "Ace of Swords",
+        "name_kr": "검 에이스",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "breakthrough",
+            "clarity",
+            "sharp mind"
+        ],
+        "description_upright": "명확성, 진실, 새로운 아이디어",
+        "description_reversed": "혼란, 잔인함"
+    },
+    {
+        "number": 2,
+        "name_en": "Two of Swords",
+        "name_kr": "검 2",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "difficult decisions",
+            "stalemate",
+            "avoidance"
+        ],
+        "description_upright": "어려운 선택, 교착 상태",
+        "description_reversed": "결정, 진실 직면"
+    },
+    {
+        "number": 3,
+        "name_en": "Three of Swords",
+        "name_kr": "검 3",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "heartbreak",
+            "sorrow",
+            "grief"
+        ],
+        "description_upright": "상심, 슬픔, 배신",
+        "description_reversed": "치유, 용서"
+    },
+    {
+        "number": 4,
+        "name_en": "Four of Swords",
+        "name_kr": "검 4",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "rest",
+            "recovery",
+            "contemplation"
+        ],
+        "description_upright": "휴식, 회복, 명상",
+        "description_reversed": "소진, 번아웃"
+    },
+    {
+        "number": 5,
+        "name_en": "Five of Swords",
+        "name_kr": "검 5",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "conflict",
+            "defeat",
+            "win at all costs"
+        ],
+        "description_upright": "갈등, 패배, 공허한 승리",
+        "description_reversed": "화해, 용서"
+    },
+    {
+        "number": 6,
+        "name_en": "Six of Swords",
+        "name_kr": "검 6",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "transition",
+            "change",
+            "moving on"
+        ],
+        "description_upright": "전환, 이동, 회복",
+        "description_reversed": "저항, 정체"
+    },
+    {
+        "number": 7,
+        "name_en": "Seven of Swords",
+        "name_kr": "검 7",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "deception",
+            "strategy",
+            "escape"
+        ],
+        "description_upright": "기만, 전략, 도피",
+        "description_reversed": "양심, 진실"
+    },
+    {
+        "number": 8,
+        "name_en": "Eight of Swords",
+        "name_kr": "검 8",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "restriction",
+            "powerlessness",
+            "victim mentality"
+        ],
+        "description_upright": "속박, 무력감, 제한",
+        "description_reversed": "해방, 자유"
+    },
+    {
+        "number": 9,
+        "name_en": "Nine of Swords",
+        "name_kr": "검 9",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "anxiety",
+            "worry",
+            "nightmares"
+        ],
+        "description_upright": "불안, 걱정, 악몽",
+        "description_reversed": "희망, 회복"
+    },
+    {
+        "number": 10,
+        "name_en": "Ten of Swords",
+        "name_kr": "검 10",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "painful endings",
+            "betrayal",
+            "rock bottom"
+        ],
+        "description_upright": "고통스러운 끝, 배신",
+        "description_reversed": "회복, 재생"
+    },
+    {
+        "number": 11,
+        "name_en": "Page of Swords",
+        "name_kr": "검 시종",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "curiosity",
+            "restlessness",
+            "mental energy"
+        ],
+        "description_upright": "호기심, 정신적 에너지",
+        "description_reversed": "험담, 조급함"
+    },
+    {
+        "number": 12,
+        "name_en": "Knight of Swords",
+        "name_kr": "검 기사",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "action",
+            "impulsiveness",
+            "defending beliefs"
+        ],
+        "description_upright": "행동, 충동, 직접적",
+        "description_reversed": "무모함, 공격성"
+    },
+    {
+        "number": 13,
+        "name_en": "Queen of Swords",
+        "name_kr": "검 여왕",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "independent",
+            "unbiased",
+            "clear boundaries"
+        ],
+        "description_upright": "독립적, 명확함, 진실",
+        "description_reversed": "냉담, 잔인함"
+    },
+    {
+        "number": 14,
+        "name_en": "King of Swords",
+        "name_kr": "검 왕",
+        "suit": "swords",
+        "arcana_type": "minor",
+        "keywords": [
+            "intellectual power",
+            "authority",
+            "truth"
+        ],
+        "description_upright": "지적 권위, 진실, 명확성",
+        "description_reversed": "조작, 냉혹함"
+    }
+]

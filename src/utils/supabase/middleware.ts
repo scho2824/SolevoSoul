@@ -28,7 +28,26 @@ export async function updateSession(request: NextRequest) {
     )
 
     // refreshing the auth token
-    await supabase.auth.getUser()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // PROTECTED ROUTES LOGIC
+    if (request.nextUrl.pathname.startsWith('/dashboard') && !user) {
+        // Clone the request url
+        const url = request.nextUrl.clone()
+        url.pathname = '/login'
+        return NextResponse.redirect(url)
+    }
+
+    // REDIRECT LOGGED IN USERS AWAY FROM AUTH PAGES
+    // If user is already logged in, they shouldn't see login/auth pages
+    if ((request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/auth')) && user) {
+        // Allow /auth/callback to pass through for OAuth flow completion
+        if (!request.nextUrl.pathname.startsWith('/auth/callback')) {
+            const url = request.nextUrl.clone()
+            url.pathname = '/dashboard'
+            return NextResponse.redirect(url)
+        }
+    }
 
     return supabaseResponse
 }

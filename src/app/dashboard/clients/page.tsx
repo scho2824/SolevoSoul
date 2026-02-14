@@ -221,7 +221,7 @@ export default function ClientsPage() {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-lg bg-card border border-card-border rounded-3xl shadow-2xl overflow-hidden"
+                            className="relative w-full max-w-lg max-h-[85vh] bg-card border border-card-border rounded-3xl shadow-2xl overflow-y-auto"
                         >
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-2">

@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
+console.log("------- DEBUGGING ENV VARS -------");
+console.log("NEXT_PUBLIC_SUPABASE_URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+console.log("----------------------------------");
+
 const nextConfig: NextConfig = {
   // DEBUG: Check if Vercel is setting these correctly
   env: {

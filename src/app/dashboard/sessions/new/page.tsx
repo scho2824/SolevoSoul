@@ -14,13 +14,14 @@ import { useTarotDeck } from '@/hooks/useTarotDeck'
 import { interpretTarotReading } from '@/app/actions/ai'
 import SendCardModal from '@/components/Tarot/SendCardModal'
 import { Skeleton } from '@/components/ui/Skeleton'
+import { Suspense } from 'react'
 
 interface Client {
     id: string
     nickname: string
 }
 
-export default function NewSessionPage() {
+function NewSessionContent() {
     const [clients, setClients] = useState<Client[]>([])
     const [selectedClientId, setSelectedClientId] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
@@ -503,5 +504,13 @@ export default function NewSessionPage() {
                 )}
             </main>
         </div>
+    )
+}
+
+export default function NewSessionPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[var(--background)] flex items-center justify-center"><Loader2 className="animate-spin text-[var(--color-soft-gold)]" size={32} /></div>}>
+            <NewSessionContent />
+        </Suspense>
     )
 }

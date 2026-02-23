@@ -53,23 +53,23 @@ export default function AuthPage() {
     return (
         <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)] to-[var(--color-midnight-blue)] z-0" />
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--color-deep-green)]/20 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[var(--color-soft-gold)]/10 rounded-full blur-3xl animate-pulse delay-700" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[var(--background)] to-[#FDF2E9] z-0" />
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--color-soft-gold)]/20 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-orange-100/50 rounded-full blur-3xl animate-pulse delay-700" />
 
             <motion.div
                 layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative z-10"
+                className="w-full max-w-md bg-white/60 backdrop-blur-xl border border-white p-8 rounded-3xl shadow-xl relative z-10"
             >
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-serif text-[var(--color-soft-gold)] mb-2">
-                        Midnight Sanctuary
+                    <h1 className="text-3xl font-serif text-[var(--color-midnight-blue)] mb-2 font-bold">
+                        Solevo Log
                     </h1>
-                    <p className="text-slate-400 text-sm">
-                        당신의 마음을 비추는 거울
+                    <p className="text-[#4A443F] text-sm">
+                        당신의 마음을 비추는 따뜻한 거울
                     </p>
                 </div>
 
@@ -100,27 +100,27 @@ export default function AuthPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-xs uppercase tracking-wider text-slate-500 mb-1">
+                        <label className="block text-xs uppercase tracking-wider text-[#4A443F] mb-1 font-bold">
                             Email
                         </label>
                         <input
                             type="email"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-slate-200 outline-none focus:border-[var(--color-soft-gold)] transition-colors"
+                            className="w-full bg-white/60 border border-[var(--card-border)] rounded-xl px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--color-soft-gold)] focus:ring-2 focus:ring-[var(--color-soft-gold)]/20 transition-all shadow-sm"
                             placeholder="hello@example.com"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-xs uppercase tracking-wider text-slate-500 mb-1">
+                        <label className="block text-xs uppercase tracking-wider text-[#4A443F] mb-1 font-bold">
                             Password
                         </label>
                         <input
                             type="password"
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-slate-200 outline-none focus:border-[var(--color-soft-gold)] transition-colors"
+                            className="w-full bg-white/60 border border-[var(--card-border)] rounded-xl px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--color-soft-gold)] focus:ring-2 focus:ring-[var(--color-soft-gold)]/20 transition-all shadow-sm"
                             placeholder="••••••••"
                             required
                             minLength={6}
@@ -130,10 +130,10 @@ export default function AuthPage() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-[var(--color-soft-gold)] hover:bg-yellow-600 text-[var(--color-midnight-blue)] font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-amber-900/20 mt-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="w-full bg-[var(--color-soft-gold)] hover:bg-[#E08328] text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-orange-900/10 mt-4 disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                         {isLoading ? (
-                            <Loader2 className="animate-spin" size={20} />
+                            <Loader2 className="animate-spin text-white" size={20} />
                         ) : (
                             isLogin ? "로그인" : "회원가입"
                         )}
@@ -147,14 +147,17 @@ export default function AuthPage() {
                             setError(null);
                             setMessage(null);
                         }}
-                        className="text-sm text-slate-400 hover:text-[var(--color-soft-gold)] transition-colors"
+                        className="text-sm font-medium text-[#4A443F] hover:text-[var(--color-midnight-blue)] transition-colors"
                     >
                         {isLogin ? "계정이 없으신가요? 회원가입" : "이미 계정이 있으신가요? 로그인"}
                     </button>
 
-                    <div className="pt-4 border-t border-white/5">
-                        <p className="text-xs text-slate-600">
-                            도움이 필요하신가요? <span className="text-slate-500 underline cursor-pointer hover:text-slate-400">고객센터 문의</span>
+                    <div className="pt-6 border-t border-[var(--card-border)]">
+                        <p className="text-xs text-[#4A443F] font-medium">
+                            도움이 필요하신가요? <span className="text-[var(--color-soft-gold)] underline cursor-pointer hover:text-[var(--color-midnight-blue)]">고객센터 문의</span>
+                        </p>
+                        <p className="text-[10px] text-[#4A443F]/60 mt-4 font-normal tracking-wider">
+                            © {new Date().getFullYear()} Axis Lab. All rights reserved.
                         </p>
                     </div>
                 </div>

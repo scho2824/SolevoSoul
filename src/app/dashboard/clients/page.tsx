@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client'
 import { Plus, Users, Search, ArrowLeft, Loader2, UserPlus, X, ShieldAlert } from 'lucide-react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Skeleton } from '@/components/ui/Skeleton'
 
 interface Client {
     id: string
@@ -137,9 +138,26 @@ export default function ClientsPage() {
 
                 {/* Clients List */}
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 gap-4 text-slate-400">
-                        <Loader2 className="animate-spin" size={32} />
-                        <p>내담자 정보를 불러오는 중입니다...</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <div key={i} className="bg-card border border-card-border rounded-2xl p-6 h-[220px] flex flex-col justify-between">
+                                <div>
+                                    <div className="flex items-start justify-between mb-4">
+                                        <Skeleton className="w-12 h-12 rounded-xl bg-white/5" />
+                                        <Skeleton className="w-20 h-4 bg-white/5" />
+                                    </div>
+                                    <Skeleton className="w-1/2 h-6 bg-white/5 mb-3" />
+                                    <div className="space-y-2">
+                                        <Skeleton className="w-2/3 h-4 bg-white/5" />
+                                        <Skeleton className="w-3/4 h-4 bg-white/5" />
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 mt-4">
+                                    <Skeleton className="w-12 h-5 bg-white/5 rounded" />
+                                    <Skeleton className="w-12 h-5 bg-white/5 rounded" />
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 ) : filteredClients.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

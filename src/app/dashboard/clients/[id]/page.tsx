@@ -314,7 +314,7 @@ export default function ClientDetailPage() {
                                 <Sparkles size={14} />
                                 타로 상담 시작
                             </Link>
-                            <Link href="/dashboard/sessions/new" className="text-sm text-gold hover:underline">
+                            <Link href={`/dashboard/sessions/new?clientId=${id}`} className="text-sm text-gold hover:underline">
                                 + 새 상담 기록하기
                             </Link>
                         </div>
@@ -359,7 +359,7 @@ export default function ClientDetailPage() {
                         <div className="text-center py-20 bg-card border border-card-border rounded-xl border-dashed">
                             <FileText className="mx-auto text-slate-500 mb-4" size={40} />
                             <p className="text-slate-400">아직 상담 기록이 없습니다.</p>
-                            <Link href="/dashboard/sessions/new">
+                            <Link href={`/dashboard/sessions/new?clientId=${id}`}>
                                 <button className="mt-4 text-gold hover:underline font-bold">
                                     첫 상담 시작하기
                                 </button>

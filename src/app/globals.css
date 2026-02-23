@@ -1,28 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  /* Digital Sanctuary Palette - Depleted Brain Friendly */
+  /* Solevo Log - Warm & Cozy Palette */
 
   /* Backgrounds */
-  --background: #0F172A;
-  /* Midnight Blue */
-  --foreground: #E2E8F0;
-  /* Slate 200 - High legibility on dark */
+  --background: #FDFBF7;
+  /* Soft Warm White */
+  --foreground: #221910;
+  /* Dark Charcoal Brown for text */
 
-  --card-bg: #1E293B;
-  /* Slate 800 - Slightly lighter than bg */
-  --card-border: #334155;
-  /* Slate 700 */
+  --card-bg: #FFFFFF;
+  /* Pure White Cards */
+  --card-border: #FDF2E9;
+  /* Peach Cream Border */
 
-  /* Digital Sanctuary Colors */
-  --color-midnight-blue: #0F172A;
-  --color-deep-forest: #1A3C34;
+  /* Brand Colors */
+  --color-midnight-blue: #221910;
+  /* Unified text color */
+  --color-deep-forest: #4A443F;
+  /* Muted warm slate */
   --color-soft-sage: #8A9A5B;
-  /* Eye rest surface */
-  --color-muted-gold: #D4AF37;
-  /* Accent */
+  /* Unchanged soft sage */
+  --color-soft-gold: #EF9439;
+  /* Warm Peach / Soft Orange accent */
   --color-terracotta: #E2725B;
-  /* Alert (Anxiety-free) */
 
   --font-pretendard: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
@@ -37,7 +38,7 @@
   --color-midnight: var(--color-midnight-blue);
   --color-forest: var(--color-deep-forest);
   --color-sage: var(--color-soft-sage);
-  --color-gold: var(--color-muted-gold);
+  --color-gold: var(--color-soft-gold);
   --color-terracotta: var(--color-terracotta);
 
   --font-sans: var(--font-pretendard);
@@ -57,14 +58,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--card-border);
+  background: #FDF2E9;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-soft-sage);
+  background: #EF9439;
 }

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { ArrowLeft, Save, Loader2, User, Sparkles, BookOpen, PenTool, RefreshCw, Send } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import TarotDeck from '@/components/Tarot/Deck'
@@ -13,6 +13,7 @@ import AudioRecorder from '@/components/Tarot/AudioRecorder'
 import { useTarotDeck } from '@/hooks/useTarotDeck'
 import { interpretTarotReading } from '@/app/actions/ai'
 import SendCardModal from '@/components/Tarot/SendCardModal'
+import { Skeleton } from '@/components/ui/Skeleton'
 
 interface Client {
     id: string
@@ -32,6 +33,7 @@ export default function NewSessionPage() {
     // UI State
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
+    const [searchQuery, setSearchQuery] = useState("")
     const [interpreting, setInterpreting] = useState(false)
     const [isSendModalOpen, setIsSendModalOpen] = useState(false)
 
@@ -47,12 +49,33 @@ export default function NewSessionPage() {
     const [uploadedAudioFiles, setUploadedAudioFiles] = useState<File[]>([])
 
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const urlClientId = searchParams?.get('clientId')
     const supabase = createClient()
 
     useEffect(() => {
-        fetchClients()
-        loadDeck()
-    }, [loadDeck])
+        const init = async () => {
+            await fetchClients()
+            loadDeck()
+            if (urlClientId) {
+                setSelectedClientId(urlClientId)
+                // Ensure specific client is loaded (in case RLS or filter missed it)
+                const { data: client } = await supabase
+                    .from('clients')
+                    .select('id, nickname')
+                    .eq('id', urlClientId)
+                    .single()
+
+                if (client) {
+                    setClients(prev => {
+                        if (prev.find(c => c.id === client.id)) return prev
+                        return [...prev, client]
+                    })
+                }
+            }
+        }
+        init()
+    }, [loadDeck, urlClientId])
 
     const fetchClients = async () => {
         const { data: { user } } = await supabase.auth.getUser()
@@ -70,6 +93,14 @@ export default function NewSessionPage() {
             setClients(data || [])
         }
         setLoading(false)
+    }
+
+    const handleBack = () => {
+        if (urlClientId) {
+            router.push(`/dashboard/clients/${urlClientId}`)
+        } else {
+            router.push('/dashboard')
+        }
     }
 
     const handleTranscriptionComplete = (text: string) => {
@@ -210,15 +241,15 @@ export default function NewSessionPage() {
     }
 
     return (
-        <div className="min-h-screen bg-background text-foreground flex flex-col">
+        <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col">
             {/* Header */}
-            <header className="border-b border-[var(--color-soft-gold)]/10 bg-[var(--color-background)]/80 backdrop-blur-md sticky top-0 z-50">
+            <header className="border-b border-[#FDF2E9] bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
                 <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <Link href="/dashboard" className="text-[var(--color-foreground)]/60 hover:text-[var(--color-soft-gold)] transition-colors">
+                        <button onClick={handleBack} className="text-[#4A443F] hover:text-[var(--color-midnight-blue)] transition-colors">
                             <ArrowLeft size={20} />
-                        </Link>
-                        <h1 className="text-xl font-bold text-[var(--color-soft-gold)] tracking-tight">상담 일지 작성</h1>
+                        </button>
+                        <h1 className="text-xl font-bold text-[var(--color-midnight-blue)] tracking-tight">상담 일지 작성</h1>
                     </div>
                     <button
                         onClick={handleSaveSession}
@@ -232,27 +263,50 @@ export default function NewSessionPage() {
             </header>
 
             <main className="flex-1 max-w-4xl w-full mx-auto p-6 space-y-8">
+
                 {/* Client Selection */}
-                <div className="bg-[var(--color-card)] border border-[var(--color-card-border)] rounded-2xl p-6">
-                    <label className="flex items-center gap-2 text-[var(--color-soft-gold)] font-bold mb-4">
-                        <User size={20} />
-                        상담 내담자
+                <div className="bg-white border border-[#FDF2E9] rounded-2xl p-6 shadow-sm">
+                    <label className="flex items-center justify-between text-[#4A443F] font-bold mb-4">
+                        <div className="flex items-center gap-2">
+                            <User size={20} className="text-[var(--color-soft-gold)]" />
+                            상담 내담자
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="내담자 검색..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-lg px-3 py-1.5 text-sm w-48 focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] text-[#4A443F] placeholder:text-[#4A443F]/40 shadow-sm"
+                        />
                     </label>
 
                     {/* Simplified Client Selector */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                        {clients.map((client) => (
-                            <button
-                                key={client.id}
-                                onClick={() => setSelectedClientId(client.id)}
-                                className={`p-3 rounded-xl border text-sm font-medium transition-all ${selectedClientId === client.id
-                                    ? 'bg-[var(--color-soft-gold)] text-white border-[var(--color-soft-gold)]'
-                                    : 'bg-[var(--color-card)] border border-[var(--color-card-border)] text-[var(--color-foreground)]/60 hover:border-[var(--color-soft-gold)]/30'
-                                    }`}
-                            >
-                                {client.nickname}
-                            </button>
-                        ))}
+                    <div className="max-h-60 overflow-y-auto pr-2 scrollbar-hide">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                            {loading ? (
+                                Array.from({ length: 4 }).map((_, i) => (
+                                    <Skeleton key={i} className="h-12 w-full rounded-xl bg-white/5" />
+                                ))
+                            ) : (
+                                clients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).map((client) => (
+                                    <button
+                                        key={client.id}
+                                        onClick={() => setSelectedClientId(client.id)}
+                                        className={`p-3 rounded-xl border text-sm font-medium transition-all ${selectedClientId === client.id
+                                            ? 'bg-[var(--color-soft-gold)] text-white border-[var(--color-soft-gold)] shadow-md'
+                                            : 'bg-white border-[#FDF2E9] text-[#4A443F] hover:border-[var(--color-soft-gold)]/50 hover:bg-[#FDFBF7] shadow-sm'
+                                            }`}
+                                    >
+                                        {client.nickname}
+                                    </button>
+                                ))
+                            )}
+                            {!loading && clients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                                <div className="col-span-full py-4 text-center text-sm text-slate-500">
+                                    검색된 내담자가 없습니다.
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -264,25 +318,25 @@ export default function NewSessionPage() {
                     />
 
                     {/* Transcript Editor */}
-                    <div className="bg-[var(--color-card)] border border-[var(--color-card-border)] rounded-2xl p-6 flex flex-col h-full">
-                        <label className="flex items-center gap-2 text-[var(--color-soft-gold)] font-bold mb-4">
-                            <PenTool size={20} />
+                    <div className="bg-white border border-[#FDF2E9] rounded-2xl p-6 flex flex-col h-full shadow-sm">
+                        <label className="flex items-center gap-2 text-[#4A443F] font-bold mb-4">
+                            <PenTool size={20} className="text-[var(--color-soft-gold)]" />
                             상담 노트 (자동 변환)
                         </label>
                         <textarea
                             value={transcript}
                             onChange={(e) => setTranscript(e.target.value)}
                             placeholder="음성 인식된 내용이 여기에 표시됩니다. 직접 수정할 수도 있습니다."
-                            className="flex-1 bg-white/5 border border-[var(--color-card-border)] rounded-xl p-4 text-slate-200 focus:outline-none focus:border-[var(--color-soft-gold)]/50 transition-all resize-none h-[200px]"
+                            className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-2 focus:ring-[var(--color-soft-gold)]/20 transition-all resize-none h-[200px] shadow-inner placeholder:text-[#4A443F]/40"
                         />
                     </div>
                 </div>
 
                 {/* Tarot Section */}
-                <div className="bg-[var(--color-card)] border border-[var(--color-card-border)] rounded-2xl p-6 min-h-[500px]">
+                <div className="bg-white border border-[#FDF2E9] rounded-2xl p-6 min-h-[500px] shadow-sm">
                     <div className="flex items-center justify-between mb-6">
-                        <label className="flex items-center gap-2 text-[var(--color-soft-gold)] font-bold">
-                            <Sparkles size={20} /> 타로 상담
+                        <label className="flex items-center gap-2 text-[#4A443F] font-bold">
+                            <Sparkles size={20} className="text-[var(--color-soft-gold)]" /> 타로 상담
                         </label>
                         {tarotStep === 'reading' && (
                             <button
@@ -308,13 +362,13 @@ export default function NewSessionPage() {
                                     exit={{ opacity: 0, y: -10 }}
                                     className="space-y-6 text-center py-10"
                                 >
-                                    <h3 className="text-xl font-bold text-[var(--color-foreground)]">무엇을 알고 싶으신가요?</h3>
+                                    <h3 className="text-xl font-bold text-[var(--color-midnight-blue)]">무엇을 알고 싶으신가요?</h3>
                                     <input
                                         type="text"
                                         placeholder="질문을 입력해주세요..."
                                         value={tarotQuestion}
                                         onChange={(e) => setTarotQuestion(e.target.value)}
-                                        className="w-full text-center text-lg bg-transparent border-b-2 border-[var(--color-soft-gold)]/30 py-4 focus:outline-none focus:border-[var(--color-soft-gold)] transition-all placeholder:text-[var(--color-lavender)]/30 text-[var(--color-foreground)]"
+                                        className="w-full text-center text-lg bg-transparent border-b-2 border-[#FDF2E9] py-4 focus:outline-none focus:border-[var(--color-soft-gold)] transition-all placeholder:text-[#4A443F]/30 text-[#4A443F] font-medium"
                                         onKeyDown={(e) => e.key === 'Enter' && tarotQuestion.trim() && setTarotStep('spread')}
                                     />
                                     <button
@@ -335,27 +389,27 @@ export default function NewSessionPage() {
                                     exit={{ opacity: 0, x: -20 }}
                                     className="space-y-6 text-center py-10"
                                 >
-                                    <h3 className="text-xl font-bold text-[var(--color-foreground)]">어떤 스프레드를 사용하시겠어요?</h3>
+                                    <h3 className="text-xl font-bold text-[var(--color-midnight-blue)]">어떤 스프레드를 사용하시겠어요?</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
                                         <button
                                             onClick={() => {
                                                 setSpreadType({ count: 1, name: '1장 카드 (오늘의 운세)', type: '1-card' })
                                                 setTarotStep('shuffle')
                                             }}
-                                            className="p-6 border border-[var(--color-card-border)] rounded-xl hover:border-[var(--color-soft-gold)] hover:bg-[var(--color-soft-gold)]/5 transition-all text-left"
+                                            className="p-6 border border-[#FDF2E9] rounded-xl hover:border-[var(--color-soft-gold)] bg-white hover:bg-orange-50/30 transition-all text-left shadow-sm"
                                         >
-                                            <div className="text-lg font-bold text-[var(--color-foreground)] mb-2">1장 카드</div>
-                                            <div className="text-sm text-slate-400">간단한 조언이나 오늘의 운세</div>
+                                            <div className="text-lg font-bold text-[var(--color-midnight-blue)] mb-2">1장 카드</div>
+                                            <div className="text-sm text-[#4A443F] font-medium">간단한 조언이나 오늘의 운세</div>
                                         </button>
                                         <button
                                             onClick={() => {
                                                 setSpreadType({ count: 3, name: '3장 스프레드', type: '3-card' })
                                                 setTarotStep('shuffle')
                                             }}
-                                            className="p-6 border border-[var(--color-card-border)] rounded-xl hover:border-[var(--color-soft-gold)] hover:bg-[var(--color-soft-gold)]/5 transition-all text-left"
+                                            className="p-6 border border-[#FDF2E9] rounded-xl hover:border-[var(--color-soft-gold)] bg-white hover:bg-orange-50/30 transition-all text-left shadow-sm"
                                         >
-                                            <div className="text-lg font-bold text-[var(--color-foreground)] mb-2">3장 스프레드</div>
-                                            <div className="text-sm text-slate-400">과거 - 현재 - 미래의 흐름 파악</div>
+                                            <div className="text-lg font-bold text-[var(--color-midnight-blue)] mb-2">3장 스프레드</div>
+                                            <div className="text-sm text-[#4A443F] font-medium">과거 - 현재 - 미래의 흐름 파악</div>
                                         </button>
                                     </div>
                                 </motion.div>
@@ -378,16 +432,14 @@ export default function NewSessionPage() {
                             {tarotStep === 'draw' && (
                                 <motion.div key="draw" className="py-20 flex flex-col items-center justify-center">
                                     <TarotDeck onDraw={() => handleDraw(spreadType.count)} isShuffling={false} />
-                                    <p className="mt-8 text-slate-400">
-                                        카드를 드래그하여 {spreadType.count}장을 뽑아주세요
-                                    </p>
+                                    {/* Removed redundant text block since TarotDeck component handles it internally */}
                                 </motion.div>
                             )}
 
                             {tarotStep === 'reading' && (
                                 <motion.div key="reading" className="space-y-8">
                                     <div className="flex justify-between items-center px-4">
-                                        <h3 className="text-lg font-bold text-slate-200">
+                                        <h3 className="text-lg font-bold text-[var(--color-midnight-blue)]">
                                             {spreadType.name} 결과
                                         </h3>
                                         <button
@@ -401,11 +453,11 @@ export default function NewSessionPage() {
                                     <TarotSpread cards={drawnCards} isRevealed={isRevealed} />
 
                                     {aiInterpretation ? (
-                                        <div className="bg-background/50 border border-[var(--color-soft-gold)]/20 p-6 rounded-xl space-y-4">
+                                        <div className="bg-[#FDFBF7] border border-[var(--color-soft-gold)]/20 p-6 rounded-xl space-y-4 shadow-inner">
                                             <div className="flex items-center gap-2 text-[var(--color-soft-gold)] font-bold">
                                                 <Sparkles size={18} /> AI 타로 리딩
                                             </div>
-                                            <div className="text-slate-300 leading-relaxed whitespace-pre-wrap text-sm">
+                                            <div className="text-[#4A443F] leading-relaxed whitespace-pre-wrap text-sm font-medium">
                                                 {aiInterpretation}
                                             </div>
 

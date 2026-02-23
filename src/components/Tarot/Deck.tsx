@@ -91,13 +91,13 @@ export default function TarotDeck({ onDraw, isShuffling }: DeckProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="absolute -bottom-16 left-1/2 -translate-x-1/2 text-center w-60 pointer-events-none"
             >
-                <p className="text-[var(--color-soft-gold)] text-sm font-medium animate-pulse">
+                <p className="text-[var(--color-soft-gold)] text-sm font-bold animate-pulse">
                     {isShuffling
                         ? "카드의 에너지를 섞는 중..."
                         : "카드를 드래그하여 뽑아주세요"}
                 </p>
                 {!isShuffling && (
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-[#4A443F] font-medium mt-1">
                         위로 끌어올리거나 옆으로 던지세요
                     </p>
                 )}

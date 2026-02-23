@@ -6,6 +6,7 @@ import { Users, Calendar, BarChart3, ChevronRight, User, AlertTriangle, Send, Sp
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import SendCardModal from "@/components/Tarot/SendCardModal";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 interface ClientStats {
     totalClients: number;
@@ -32,6 +33,7 @@ export default function CounselorDashboard() {
     const [recentClients, setRecentClients] = useState<ClientPreview[]>([]);
     const [inactiveClients, setInactiveClients] = useState<ClientPreview[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState("");
 
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -133,17 +135,14 @@ export default function CounselorDashboard() {
         <div className="space-y-8">
             <header className="flex justify-between items-end">
                 <div>
-                    <h1 className="text-2xl font-serif text-gold">상담사 대시보드</h1>
-                    <p className="text-slate-400 text-sm mt-1">내담자 현황 및 여정 지도</p>
+                    <h1 className="text-2xl font-serif text-[var(--color-midnight-blue)] font-bold">상담사 대시보드</h1>
+                    <p className="text-[#4A443F] text-sm mt-1 font-medium">내담자 현황 및 여정 지도</p>
                 </div>
                 <div className="flex gap-2">
-                    <Link href="/session/tarot" className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-lg text-sm text-purple-300 hover:text-purple-200 hover:bg-purple-500/20 transition-colors flex items-center gap-2">
-                        <Sparkles className="w-4 h-4" /> 타로 상담
-                    </Link>
-                    <Link href="/dashboard/clients" className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-400 hover:text-foreground hover:bg-white/10 transition-colors flex items-center gap-2">
+                    <Link href="/dashboard/clients" className="px-4 py-2 bg-white border border-[#FDF2E9] rounded-lg text-sm text-[#4A443F] hover:text-[var(--color-midnight-blue)] hover:bg-orange-50 transition-colors flex items-center gap-2 shadow-sm font-medium">
                         <Users className="w-4 h-4" /> 내담자 관리
                     </Link>
-                    <Link href="/dashboard/sessions/new" className="px-4 py-2 bg-gold border border-gold/50 rounded-lg text-sm text-midnight hover:bg-gold/90 transition-colors flex items-center gap-2 font-medium">
+                    <Link href="/dashboard/sessions/new" className="px-4 py-2 bg-[var(--color-soft-gold)] border border-[#E08328] rounded-lg text-sm text-white hover:bg-[#E08328] transition-colors flex items-center gap-2 font-medium shadow-sm">
                         + 일정 추가
                     </Link>
                 </div>
@@ -151,36 +150,34 @@ export default function CounselorDashboard() {
 
             {/* Stats Row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-card shadow-sm border border-card-border p-4 rounded-xl">
-                    <div className="flex items-center gap-2 text-slate-400 mb-2">
+                <div className="bg-white shadow-sm border border-[#FDF2E9] p-4 rounded-xl">
+                    <div className="flex items-center gap-2 text-[#4A443F] mb-2">
                         <Users className="w-4 h-4" />
-                        <span className="text-xs uppercase tracking-wider">Total Clients</span>
+                        <span className="text-xs uppercase tracking-wider font-bold">Total Clients</span>
                     </div>
-                    <p className="text-2xl font-bold text-foreground">{loading ? '-' : stats.totalClients}</p>
+                    {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-2xl font-bold text-[var(--color-midnight-blue)]">{stats.totalClients}</p>}
                 </div>
-                <div className="bg-card shadow-sm border border-card-border p-4 rounded-xl">
-                    <div className="flex items-center gap-2 text-slate-400 mb-2">
+                <div className="bg-white shadow-sm border border-[#FDF2E9] p-4 rounded-xl">
+                    <div className="flex items-center gap-2 text-[#4A443F] mb-2">
                         <Calendar className="w-4 h-4" />
-                        <span className="text-xs uppercase tracking-wider">Today&apos;s Sessions</span>
+                        <span className="text-xs uppercase tracking-wider font-bold">Today&apos;s Sessions</span>
                     </div>
-                    <p className="text-2xl font-bold text-gold">{loading ? '-' : stats.todaySessions}</p>
+                    {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-2xl font-bold text-[var(--color-soft-gold)]">{stats.todaySessions}</p>}
                 </div>
-                <div className="bg-card shadow-sm border border-card-border p-4 rounded-xl">
-                    <div className="flex items-center gap-2 text-slate-400 mb-2">
+                <div className="bg-white shadow-sm border border-[#FDF2E9] p-4 rounded-xl">
+                    <div className="flex items-center gap-2 text-[#4A443F] mb-2">
                         <BarChart3 className="w-4 h-4" />
-                        <span className="text-xs uppercase tracking-wider">Retention Rate</span>
+                        <span className="text-xs uppercase tracking-wider font-bold">Retention Rate</span>
                     </div>
-                    <p className="text-2xl font-bold text-sage">{loading ? '-' : `${stats.retentionRate}%`}</p>
+                    {loading ? <Skeleton className="h-8 w-16" /> : <p className="text-2xl font-bold text-[var(--color-deep-forest)]">{stats.retentionRate}%</p>}
                 </div>
                 {/* Retention Alert Box */}
-                <div className={`shadow-sm border p-4 rounded-xl transition-all ${stats.inactiveCount > 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-card border-card-border'}`}>
-                    <div className="flex items-center gap-2 text-slate-400 mb-2">
-                        <AlertTriangle className={`w-4 h-4 ${stats.inactiveCount > 0 ? 'text-red-400' : ''}`} />
-                        <span className="text-xs uppercase tracking-wider">Risk (Inactive)</span>
+                <div className={`shadow-sm border p-4 rounded-xl transition-all ${stats.inactiveCount > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-[#FDF2E9]'}`}>
+                    <div className="flex items-center gap-2 text-[#4A443F] mb-2">
+                        <AlertTriangle className={`w-4 h-4 ${stats.inactiveCount > 0 ? 'text-red-500' : ''}`} />
+                        <span className="text-xs uppercase tracking-wider font-bold">Risk (Inactive)</span>
                     </div>
-                    <p className={`text-2xl font-bold ${stats.inactiveCount > 0 ? 'text-red-400' : 'text-slate-500'}`}>
-                        {loading ? '-' : stats.inactiveCount}
-                    </p>
+                    {loading ? <Skeleton className="h-8 w-16" /> : <p className={`text-2xl font-bold ${stats.inactiveCount > 0 ? 'text-red-500' : 'text-[#4A443F]/60'}`}>{stats.inactiveCount}</p>}
                 </div>
             </div>
 
@@ -189,22 +186,22 @@ export default function CounselorDashboard() {
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-[var(--color-card)] border border-red-500/20 rounded-xl p-5"
+                    className="bg-white border border-red-200 rounded-xl p-5 shadow-sm"
                 >
-                    <h3 className="text-sm font-bold text-red-300 flex items-center gap-2 mb-4">
+                    <h3 className="text-sm font-bold text-red-500 flex items-center gap-2 mb-4">
                         <AlertTriangle size={16} />
                         관리 필요 내담자 (30일 이상 미방문)
                     </h3>
                     <div className="grid gap-3">
                         {inactiveClients.map((client) => (
-                            <div key={client.id} className="flex items-center justify-between bg-black/20 p-3 rounded-lg border border-white/5">
+                            <div key={client.id} className="flex items-center justify-between bg-red-50 p-3 rounded-lg border border-red-100">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 text-xs">
+                                    <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500 font-bold text-xs">
                                         {client.nickname[0]}
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-slate-200">{client.nickname}</p>
-                                        <p className="text-xs text-slate-500">마지막 방문: {client.last_session_date}</p>
+                                        <p className="text-sm font-bold text-[var(--color-midnight-blue)]">{client.nickname}</p>
+                                        <p className="text-xs text-[#4A443F] font-medium">마지막 방문: {client.last_session_date}</p>
                                     </div>
                                 </div>
                                 <button
@@ -212,7 +209,7 @@ export default function CounselorDashboard() {
                                         setSelectedClient(client);
                                         setIsModalOpen(true);
                                     }}
-                                    className="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-300 text-xs rounded-lg transition-colors flex items-center gap-1"
+                                    className="px-3 py-1.5 bg-white hover:bg-orange-50 text-red-500 border border-red-200 text-xs rounded-lg transition-colors flex items-center gap-1 font-bold shadow-sm"
                                 >
                                     <Send size={12} /> 안부 문자 보내기
                                 </button>
@@ -224,37 +221,60 @@ export default function CounselorDashboard() {
 
             {/* Active Client List */}
             <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-medium text-foreground">최근 활동 내담자</h2>
-                    <Link href="/dashboard/clients" className="text-xs text-gold hover:underline flex items-center gap-1">
-                        전체 보기 <ChevronRight className="w-3 h-3" />
-                    </Link>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h2 className="text-lg font-bold text-[var(--color-midnight-blue)]">최근 활동 내담자</h2>
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                        <input
+                            type="text"
+                            placeholder="이름으로 검색..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="bg-white border border-[#FDF2E9] rounded-lg px-3 py-1.5 text-sm w-full sm:w-48 focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] text-[var(--foreground)] shadow-sm"
+                        />
+                        <Link href="/dashboard/clients" className="text-xs text-[var(--color-soft-gold)] hover:text-[#E08328] font-bold flex items-center gap-1 shrink-0">
+                            전체 보기 <ChevronRight className="w-3 h-3" />
+                        </Link>
+                    </div>
                 </div>
                 <div className="space-y-3">
                     {loading ? (
-                        <div className="text-center py-10 text-slate-500">데이터를 불러오는 중...</div>
-                    ) : recentClients.map((client, i) => (
-                        <motion.div
-                            key={client.id}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: i * 0.1 }}
-                            className="group flex items-center justify-between p-4 bg-card hover:bg-white/5 border border-card-border hover:border-gold/60 rounded-xl cursor-pointer transition-all shadow-sm"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-gold/20 text-gold flex items-center justify-center">
-                                    <User className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h3 className="font-medium text-foreground">{client.nickname}</h3>
-                                    <p className="text-xs text-slate-400">
-                                        최근 세션: <span className="text-sage">{client.last_session_date}</span>
-                                    </p>
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="flex items-center gap-4 p-4 bg-white border border-[#FDF2E9] rounded-xl shadow-sm">
+                                <Skeleton className="w-10 h-10 rounded-full bg-orange-50" />
+                                <div className="space-y-2 flex-1">
+                                    <Skeleton className="h-4 w-1/3 bg-orange-50" />
+                                    <Skeleton className="h-3 w-1/4 bg-orange-50" />
                                 </div>
                             </div>
-                            <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-foreground transition-colors" />
-                        </motion.div>
+                        ))
+                    ) : recentClients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).map((client, i) => (
+                        <Link href={`/dashboard/clients/${client.id}`} key={client.id} className="block">
+                            <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                className="group flex items-center justify-between p-4 bg-white hover:bg-[#FDFBF7] border border-[#FDF2E9] hover:border-[var(--color-soft-gold)] rounded-xl cursor-pointer transition-all shadow-sm"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-orange-50 text-[var(--color-soft-gold)] font-bold flex items-center justify-center">
+                                        <User className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-[var(--color-midnight-blue)]">{client.nickname}</h3>
+                                        <p className="text-xs text-[#4A443F] font-medium">
+                                            최근 세션: <span className="text-[var(--color-deep-forest)] font-bold">{client.last_session_date}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <ChevronRight className="w-5 h-5 text-[#4A443F]/60 group-hover:text-[var(--color-midnight-blue)] transition-colors" />
+                            </motion.div>
+                        </Link>
                     ))}
+                    {!loading && recentClients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                        <div className="text-center py-8 text-sm text-[#4A443F] font-medium bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl border-dashed">
+                            검색된 활동 내담자가 없습니다.
+                        </div>
+                    )}
                 </div>
             </div>
 

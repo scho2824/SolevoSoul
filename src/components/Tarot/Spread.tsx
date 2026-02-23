@@ -41,9 +41,10 @@ export default function TarotSpread({ cards = [], isRevealed }: SpreadProps) {
                             rotateY: isRevealed ? 0 : 180
                         }}
                         transition={{
-                            delay: index * 0.2,
-                            duration: 0.8,
-                            type: "spring"
+                            delay: index * 0.15,
+                            duration: 0.5,
+                            type: "tween",
+                            ease: "easeInOut"
                         }}
                         className="aspect-[2/3] relative perspective-1000 cursor-pointer group"
                         onClick={() => isRevealed && setSelectedCard(card)}
@@ -139,14 +140,14 @@ export default function TarotSpread({ cards = [], isRevealed }: SpreadProps) {
 
                                     <div className="w-16 h-px bg-[var(--color-soft-gold)]/30 mx-auto" />
 
-                                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg">
+                                    <p className="text-[#4A443F] leading-relaxed text-lg font-medium">
                                         {selectedCard.desc}
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="p-4 bg-[var(--color-surface)] border-t border-[var(--color-border)] text-center">
-                                <p className="text-xs text-[var(--color-muted-text)]">
+                            <div className="p-4 bg-white border-t border-[#FDF2E9] text-center">
+                                <p className="text-xs text-[#4A443F] font-bold">
                                     화면의 아무 곳이나 눌러서 닫기
                                 </p>
                             </div>

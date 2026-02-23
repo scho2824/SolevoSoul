@@ -16,13 +16,9 @@ export async function transcribeAudio(sessionId: string, audioUrl: string) {
         // 1. Download audio from Supabase Storage
         const response = await fetch(audioUrl)
         if (!response.ok) throw new Error('Failed to fetch audio file from storage')
-        const audioBlob = await response.blob()
+        // const audioBlob = await response.blob() // check if needed
 
         // 2. Call Naver CLOVA Speech API
-        // Using Object Storage/URL method is also possible, but here we'll try to send the file directly
-        // CLOVA Speech API often expects a POST with file or a URL in JSON.
-        // We'll use the 'file' method here if possible, but standard 'url' method with JSON is cleaner if the file is public.
-
         const body = {
             language: 'ko-KR',
             completion: 'sync', // For simplicity in this demo; 'async' is better for long files
@@ -54,22 +50,30 @@ export async function transcribeAudio(sessionId: string, audioUrl: string) {
         const result = await clovaResponse.json()
         const transcription = result.text || ''
 
-        // 3. Update the session transcript
-        // We might want to APPEND if there are multiple segments, but for now we'll just update or concatenate
-        const { data: currentSession } = await supabase
-            .from('sessions')
-            .select('transcript_text')
-            .eq('id', sessionId)
-            .single()
+        // 3. Update the session transcript ONLY if sessionId is valid UUID
+        // Regex for UUID
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-        const updatedTranscript = currentSession?.transcript_text
-            ? `${currentSession.transcript_text}\n\n[추가 변환 내용]\n${transcription}`
-            : transcription
+        if (uuidRegex.test(sessionId)) {
+            const { data: currentSession } = await supabase
+                .from('sessions')
+                .select('transcript_text')
+                .eq('id', sessionId)
+                .single()
 
-        await supabase
-            .from('sessions')
-            .update({ transcript_text: updatedTranscript })
-            .eq('id', sessionId)
+            if (currentSession) {
+                const updatedTranscript = currentSession.transcript_text
+                    ? `${currentSession.transcript_text}\n\n[추가 변환 내용]\n${transcription}`
+                    : transcription
+
+                await supabase
+                    .from('sessions')
+                    .update({ transcript_text: updatedTranscript })
+                    .eq('id', sessionId)
+            }
+        } else {
+            console.log(`Skipping DB update for invalid/temp session ID: ${sessionId}`);
+        }
 
         return transcription
     } catch (error: any) {

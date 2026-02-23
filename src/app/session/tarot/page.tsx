@@ -135,10 +135,10 @@ function TarotSessionContent() {
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                     <Link
                         href="/dashboard"
-                        className="flex items-center gap-2 text-slate-400 hover:text-[var(--color-soft-gold)] transition-colors group"
+                        className="flex items-center gap-2 text-slate-500 hover:text-[var(--color-midnight-blue)] transition-colors group"
                     >
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-medium">대시보드</span>
+                        <span className="font-bold">대시보드</span>
                     </Link>
                     <h1 className="text-lg font-serif text-[var(--color-soft-gold)]">타로 리딩</h1>
                     <div className="w-24" /> {/* Spacer for centering */}
@@ -150,9 +150,9 @@ function TarotSessionContent() {
                 {["intention", "spread-select", "shuffle", "draw", "reveal", "result"].map((s, i) => (
                     <div
                         key={s}
-                        className={`h-1 w-12 rounded-full transition-all duration-500 ${["intention", "spread-select", "shuffle", "draw", "reveal", "result"].indexOf(step) >= i
-                            ? "bg-[var(--color-soft-gold)] shadow-[0_0_10px_var(--color-soft-gold)]"
-                            : "bg-white/10"
+                        className={`h-1.5 w-12 rounded-full transition-all duration-500 ${["intention", "spread-select", "shuffle", "draw", "reveal", "result"].indexOf(step) >= i
+                            ? "bg-[var(--color-soft-gold)] shadow-sm"
+                            : "bg-slate-200"
                             }`}
                     />
                 ))}
@@ -185,7 +185,7 @@ function TarotSessionContent() {
                                 value={question}
                                 onChange={(e) => setQuestion(e.target.value)}
                                 placeholder="예: 내 진로에 대해 조언을 구합니다"
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-6 text-xl text-[var(--color-foreground)] placeholder:text-slate-600 focus:outline-none focus:border-[var(--color-soft-gold)] focus:bg-white/10 transition-all text-center"
+                                className="w-full bg-white border border-slate-200 rounded-2xl px-8 py-6 text-xl text-[var(--color-foreground)] placeholder:text-slate-400 focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-4 focus:ring-[var(--color-soft-gold)]/20 transition-all text-center shadow-sm font-medium"
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' && question.trim()) {
                                         setStep("spread-select");
@@ -195,7 +195,7 @@ function TarotSessionContent() {
                             <button
                                 onClick={() => setStep("spread-select")}
                                 disabled={!question.trim()}
-                                className="w-full bg-[var(--color-midnight-green)] hover:bg-emerald-900 disabled:bg-slate-800 disabled:text-slate-600 text-emerald-100 border border-emerald-500/30 disabled:border-slate-700 font-bold py-5 rounded-xl flex items-center justify-center gap-2 transition-all text-lg shadow-lg shadow-emerald-900/20"
+                                className="w-full bg-[var(--color-midnight-blue)] hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-2 transition-all text-lg shadow-lg disabled:shadow-none"
                             >
                                 <span>다음 단계로</span>
                                 <ArrowRight className="w-5 h-5" />
@@ -229,12 +229,12 @@ function TarotSessionContent() {
                                         setStep("shuffle");
                                     }}
                                     className={`relative p-8 rounded-3xl border-2 transition-all text-left hover:scale-[1.02] active:scale-[0.98] ${selectedSpread === option.type
-                                        ? "border-[var(--color-soft-gold)] bg-[var(--color-soft-gold)]/10 shadow-[0_0_30px_rgba(250,219,109,0.1)]"
-                                        : "border-white/5 bg-white/5 hover:border-white/20 hover:bg-white/10"
+                                        ? "border-[var(--color-soft-gold)] bg-orange-50/50 shadow-md"
+                                        : "border-slate-200 bg-white hover:border-[var(--color-soft-gold)]/50 hover:bg-slate-50 shadow-sm"
                                         }`}
                                 >
                                     <div className="absolute top-6 right-6 opacity-20">
-                                        <Sparkles className="w-8 h-8" />
+                                        <Sparkles className={`w-8 h-8 ${selectedSpread === option.type ? "text-[var(--color-soft-gold)]" : "text-slate-400"}`} />
                                     </div>
                                     <h3 className="text-xl font-bold text-[var(--color-foreground)] mb-3">
                                         {option.label}
@@ -268,8 +268,8 @@ function TarotSessionContent() {
                             disabled={isShuffling}
                             className="group relative mx-auto"
                         >
-                            <div className="absolute inset-0 bg-[var(--color-soft-gold)] rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity" />
-                            <div className="relative bg-[var(--color-soft-gold)] hover:bg-yellow-500 disabled:bg-slate-700 text-[var(--color-midnight-blue)] disabled:text-slate-500 font-bold py-8 px-16 rounded-2xl flex items-center gap-4 transition-all shadow-xl">
+                            <div className="absolute inset-0 bg-[var(--color-soft-gold)] rounded-2xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity" />
+                            <div className="relative bg-[var(--color-soft-gold)] hover:bg-yellow-600 disabled:bg-slate-200 text-white disabled:text-slate-400 font-bold py-8 px-16 rounded-2xl flex items-center gap-4 transition-all shadow-xl disabled:shadow-none">
                                 <Shuffle className={`w-8 h-8 ${isShuffling ? 'animate-spin' : ''}`} />
                                 <span className="text-xl">{isShuffling ? '운명을 섞는 중...' : '카드 섞기'}</span>
                             </div>
@@ -301,7 +301,7 @@ function TarotSessionContent() {
 
                         <button
                             onClick={handleDraw}
-                            className="bg-transparent hover:bg-white/5 border-2 border-[var(--color-soft-gold)] text-[var(--color-soft-gold)] font-bold py-6 px-12 rounded-2xl transition-all hover:scale-105 active:scale-95"
+                            className="bg-white hover:bg-slate-50 border-2 border-[var(--color-soft-gold)] text-[var(--color-soft-gold)] font-bold py-6 px-12 rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-lg"
                         >
                             카드 뽑기 (Click)
                         </button>
@@ -319,10 +319,11 @@ function TarotSessionContent() {
                         {/* Left: Drawn Cards */}
                         <div className="lg:col-span-2 space-y-8">
                             <div className="text-center md:text-left">
-                                <h2 className="text-2xl font-serif text-[var(--color-soft-gold)] mb-2">
+                                <h2 className="text-2xl font-serif text-[var(--color-midnight-blue)] font-bold mb-2 flex items-center gap-2">
+                                    <Sparkles className="text-[var(--color-soft-gold)]" size={24} />
                                     당신의 카드
                                 </h2>
-                                <p className="text-slate-400 text-sm">
+                                <p className="text-slate-500 text-sm font-medium">
                                     선택하신 카드가 운명의 이야기를 들려줍니다.
                                 </p>
                             </div>
@@ -390,23 +391,23 @@ function TarotSessionContent() {
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 space-y-6 relative overflow-hidden"
+                                    className="bg-white border border-slate-200 shadow-sm rounded-3xl p-8 md:p-10 space-y-6 relative overflow-hidden"
                                 >
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-soft-gold)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-soft-gold)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-                                    <div className="flex items-center gap-3 border-b border-white/10 pb-6 mb-6">
+                                    <div className="flex items-center gap-3 border-b border-slate-100 pb-6 mb-6">
                                         <Sparkles className="w-6 h-6 text-[var(--color-soft-gold)]" />
-                                        <h3 className="text-2xl font-serif text-[var(--color-soft-gold)]">
+                                        <h3 className="text-2xl font-serif font-bold text-[var(--color-midnight-blue)]">
                                             AI 타로 해석
                                         </h3>
                                     </div>
 
-                                    <div className="prose prose-invert prose-lg max-w-none text-slate-300 leading-relaxed whitespace-pre-wrap font-light">
+                                    <div className="prose prose-slate prose-lg max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap font-medium">
                                         {interpretation}
                                     </div>
 
                                     <div className="pt-8 flex justify-center">
-                                        <Link href="/dashboard" className="text-emerald-400 hover:text-emerald-300 flex items-center gap-2 transition-colors">
+                                        <Link href="/dashboard" className="text-[var(--color-soft-gold)] hover:text-yellow-600 font-bold flex items-center gap-2 transition-colors">
                                             <ArrowLeft className="w-4 h-4" />
                                             <span>대시보드로 돌아가기</span>
                                         </Link>

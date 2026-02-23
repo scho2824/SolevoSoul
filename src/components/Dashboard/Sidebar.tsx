@@ -16,10 +16,10 @@ export default function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="hidden md:flex flex-col w-64 h-screen bg-midnight border-r border-white/5 fixed left-0 top-0 z-50">
+        <aside className="hidden md:flex flex-col w-64 h-screen bg-[var(--background)] border-r border-[#FDF2E9] fixed left-0 top-0 z-50 shadow-sm">
             <div className="p-8">
-                <h1 className="text-2xl font-serif text-gold tracking-tight">
-                    SolevoLog
+                <h1 className="text-3xl font-serif text-[var(--color-midnight-blue)] font-bold tracking-tight">
+                    Solevo Log
                 </h1>
             </div>
 
@@ -31,21 +31,21 @@ export default function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group",
+                                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group font-bold",
                                 isActive
-                                    ? "bg-white/5 text-gold border border-gold/20"
-                                    : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
+                                    ? "bg-[var(--color-midnight-blue)] text-white shadow-md"
+                                    : "text-[#4A443F] hover:bg-orange-50 hover:text-[var(--color-midnight-blue)]"
                             )}
                         >
-                            <item.icon className={cn("w-5 h-5", isActive ? "text-gold" : "text-slate-500 group-hover:text-slate-300")} />
-                            <span className="font-medium">{item.label}</span>
+                            <item.icon className={cn("w-5 h-5", isActive ? "text-[var(--color-soft-gold)]" : "text-[#4A443F]/60 group-hover:text-[var(--color-midnight-blue)]")} />
+                            <span>{item.label}</span>
                         </Link>
                     );
                 })}
             </nav>
 
-            <div className="p-4 border-t border-white/5">
-                <div className="px-4 py-3">
+            <div className="p-4 border-t border-[#FDF2E9]">
+                <div className="px-4 py-3 flex justify-center">
                     <LogoutButton />
                 </div>
             </div>

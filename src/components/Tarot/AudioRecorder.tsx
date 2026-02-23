@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Mic, Square, Loader2, RefreshCw } from "lucide-react";
+import { Mic, Square, Loader2, RefreshCw, MicOff } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
@@ -20,11 +20,13 @@ export default function AudioRecorder({ sessionId, onTranscriptionComplete }: Au
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const [volume, setVolume] = useState<number[]>(new Array(20).fill(10)); // For waveform visualization
+    const [micError, setMicError] = useState(false);
 
     const supabase = createClient();
 
     const startRecording = async () => {
         try {
+            setMicError(false);
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             const mediaRecorder = new MediaRecorder(stream);
             mediaRecorderRef.current = mediaRecorder;
@@ -69,7 +71,8 @@ export default function AudioRecorder({ sessionId, onTranscriptionComplete }: Au
 
         } catch (err) {
             console.error("Failed to start recording", err);
-            toast.error("마이크 권한이 필요합니다.");
+            setMicError(true);
+            toast.error("마이크 권한이 거부되었거나 장치를 찾을 수 없습니다.");
         }
     };
 
@@ -105,8 +108,8 @@ export default function AudioRecorder({ sessionId, onTranscriptionComplete }: Au
             onTranscriptionComplete(transcript);
 
         } catch (error: any) {
-            console.error("Error processing audio:", error);
-            toast.error("오디오 처리 중 오류가 발생했습니다: " + error.message);
+            console.error("Error processing audio in handleUploadAndTranscribe:", error);
+            toast.error("오디오 처리 중 오류가 발생했습니다: " + (error.message || "알 수 없는 오류"));
         } finally {
             setIsProcessing(false);
             setDuration(0);
@@ -127,7 +130,12 @@ export default function AudioRecorder({ sessionId, onTranscriptionComplete }: Au
 
             {/* Waveform Visualization */}
             <div className="h-16 flex items-center justify-center gap-1 w-full max-w-md">
-                {isRecording ? (
+                {micError ? (
+                    <div className="flex flex-col items-center gap-1 text-red-400">
+                        <MicOff size={24} />
+                        <span className="text-xs text-center">브라우저 설정에서 마이크 권한을 허용한 후 다시 시도해주세요.</span>
+                    </div>
+                ) : isRecording ? (
                     volume.map((h, i) => (
                         <motion.div
                             key={i}
@@ -156,9 +164,11 @@ export default function AudioRecorder({ sessionId, onTranscriptionComplete }: Au
                 {!isRecording && !isProcessing && (
                     <button
                         onClick={startRecording}
-                        className="w-16 h-16 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center shadow-lg transition-transform active:scale-95 text-white"
+                        className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-95 text-white ${micError ? "bg-red-500/50 hover:bg-red-500/60" : "bg-red-500 hover:bg-red-600"
+                            }`}
+                        title={micError ? "다시 시도" : "녹음 시작"}
                     >
-                        <Mic size={28} />
+                        {micError ? <RefreshCw size={24} /> : <Mic size={28} />}
                     </button>
                 )}
 

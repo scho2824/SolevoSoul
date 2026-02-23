@@ -131,29 +131,29 @@ export default function ClientDetailPage() {
     if (!client) return null
 
     return (
-        <div className="min-h-screen bg-background text-foreground flex flex-col">
+        <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col">
             {/* Header */}
-            <header className="bg-background/80 border-b border-card-border backdrop-blur-md sticky top-0 z-50">
+            <header className="bg-white/80 border-b border-[#FDF2E9] backdrop-blur-md sticky top-0 z-50 shadow-sm">
                 <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <Link href="/dashboard/clients" className="text-slate-400 hover:text-gold transition-colors">
+                        <Link href="/dashboard/clients" className="text-[#4A443F] hover:text-[var(--color-midnight-blue)] transition-colors">
                             <ArrowLeft size={20} />
                         </Link>
-                        <h1 className="text-xl font-bold text-gold tracking-tight">{isEditing ? '내담자 정보 수정' : client.nickname}</h1>
+                        <h1 className="text-xl font-bold text-[var(--color-midnight-blue)] tracking-tight">{isEditing ? '내담자 정보 수정' : client.nickname}</h1>
                     </div>
                     <div className="flex gap-2">
                         {isEditing ? (
                             <>
                                 <button
                                     onClick={() => setIsEditing(false)}
-                                    className="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition-colors"
+                                    className="px-4 py-2 rounded-lg text-[#4A443F]/60 hover:text-[#4A443F] transition-colors"
                                 >
                                     취소
                                 </button>
                                 <button
                                     onClick={handleUpdate}
                                     disabled={saving}
-                                    className="bg-gold text-midnight px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-gold/90 transition-all active:scale-95 disabled:opacity-50"
+                                    className="bg-[var(--color-soft-gold)] text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-[var(--color-soft-gold)]/90 transition-all active:scale-95 disabled:opacity-50 shadow-sm"
                                 >
                                     <Save size={18} />
                                     저장
@@ -162,7 +162,7 @@ export default function ClientDetailPage() {
                         ) : (
                             <button
                                 onClick={() => setIsEditing(true)}
-                                className="bg-card border border-gold/30 text-gold px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-gold hover:text-midnight transition-all active:scale-95"
+                                className="bg-white border-2 border-[var(--color-soft-gold)] text-[var(--color-soft-gold)] px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-[var(--color-soft-gold)] hover:text-white transition-all active:scale-95 shadow-sm"
                             >
                                 <Edit2 size={18} />
                                 수정
@@ -174,8 +174,8 @@ export default function ClientDetailPage() {
 
             <main className="flex-1 max-w-5xl w-full mx-auto p-6 space-y-8">
                 {/* Profile Section */}
-                <section className="bg-card border border-card-border rounded-2xl p-8 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+                <section className="bg-white border border-[#FDF2E9] rounded-2xl p-8 relative overflow-hidden shadow-sm">
+                    <div className="absolute top-0 right-0 p-4 shrink-0 pointer-events-none text-[#FDF2E9] scale-150 origin-top-right">
                         <UserIconLarge />
                     </div>
 
@@ -183,37 +183,37 @@ export default function ClientDetailPage() {
                         {/* Left Column: Basic Info */}
                         <div className="space-y-6">
                             <div>
-                                <label className="text-xs font-bold text-gold uppercase tracking-widest mb-1.5 block">닉네임</label>
+                                <label className="text-xs font-bold text-[var(--color-soft-gold)] uppercase tracking-widest mb-1.5 block">닉네임</label>
                                 {isEditing ? (
                                     <input
-                                        className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-lg font-bold focus:border-gold outline-none text-white"
+                                        className="w-full bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 text-lg font-bold text-[#4A443F] focus:border-[var(--color-soft-gold)] outline-none focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all"
                                         value={formData.nickname}
                                         onChange={e => setFormData({ ...formData, nickname: e.target.value })}
                                     />
                                 ) : (
-                                    <div className="text-3xl font-bold text-white">{client.nickname}</div>
+                                    <div className="text-3xl font-bold text-[var(--color-midnight-blue)]">{client.nickname}</div>
                                 )}
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">나이</label>
+                                    <label className="text-xs font-bold text-[#4A443F]/60 uppercase tracking-widest mb-1.5 block">나이</label>
                                     {isEditing ? (
                                         <input
                                             type="number"
-                                            className="w-full bg-white/5 border border-white/10 rounded-lg p-3 focus:border-gold outline-none text-white"
+                                            className="w-full bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 text-[#4A443F] focus:border-[var(--color-soft-gold)] outline-none focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all"
                                             value={formData.age || ''}
                                             onChange={e => setFormData({ ...formData, age: e.target.value ? parseInt(e.target.value) : null })}
                                         />
                                     ) : (
-                                        <div className="text-lg text-slate-300">{client.age ? `${client.age}세` : '-'}</div>
+                                        <div className="text-lg font-medium text-[#4A443F]/80">{client.age ? `${client.age}세` : '-'}</div>
                                     )}
                                 </div>
                                 <div>
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">성별</label>
+                                    <label className="text-xs font-bold text-[#4A443F]/60 uppercase tracking-widest mb-1.5 block">성별</label>
                                     {isEditing ? (
                                         <select
-                                            className="w-full bg-white/5 border border-white/10 rounded-lg p-3 focus:border-gold outline-none text-white"
+                                            className="w-full bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 text-[#4A443F] focus:border-[var(--color-soft-gold)] outline-none focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all appearance-none"
                                             value={formData.gender || ''}
                                             onChange={e => setFormData({ ...formData, gender: e.target.value })}
                                         >
@@ -223,7 +223,7 @@ export default function ClientDetailPage() {
                                             <option value="기타">기타</option>
                                         </select>
                                     ) : (
-                                        <div className="text-lg text-slate-300">{client.gender || '-'}</div>
+                                        <div className="text-lg font-medium text-[#4A443F]/80">{client.gender || '-'}</div>
                                     )}
                                 </div>
                             </div>
@@ -233,55 +233,55 @@ export default function ClientDetailPage() {
                         <div className="space-y-6">
                             <div className="space-y-4">
                                 <div className="flex items-center gap-3">
-                                    <Phone className="text-gold w-5 h-5" />
+                                    <Phone className="text-[var(--color-soft-gold)] w-5 h-5 shrink-0" />
                                     {isEditing ? (
                                         <input
-                                            className="flex-1 bg-white/5 border border-white/10 rounded-lg p-2 focus:border-gold outline-none text-white"
+                                            className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 text-[#4A443F] focus:border-[var(--color-soft-gold)] outline-none focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all"
                                             value={formData.phone}
                                             onChange={e => setFormData({ ...formData, phone: e.target.value })}
                                         />
                                     ) : (
-                                        <span className="text-slate-300">{client.phone}</span>
+                                        <span className="text-[#4A443F]/80 font-medium">{client.phone}</span>
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <Mail className="text-gold w-5 h-5" />
+                                    <Mail className="text-[var(--color-soft-gold)] w-5 h-5 shrink-0" />
                                     {isEditing ? (
                                         <input
-                                            className="flex-1 bg-white/5 border border-white/10 rounded-lg p-2 focus:border-gold outline-none text-white"
+                                            className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 text-[#4A443F] focus:border-[var(--color-soft-gold)] outline-none focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all"
                                             value={formData.email}
                                             onChange={e => setFormData({ ...formData, email: e.target.value })}
                                         />
                                     ) : (
-                                        <span className="text-slate-300">{client.email}</span>
+                                        <span className="text-[#4A443F]/80 font-medium">{client.email}</span>
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <MapPin className="text-gold w-5 h-5" />
+                                    <MapPin className="text-[var(--color-soft-gold)] w-5 h-5 shrink-0" />
                                     {isEditing ? (
                                         <input
-                                            className="flex-1 bg-white/5 border border-white/10 rounded-lg p-2 focus:border-gold outline-none text-white"
+                                            className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 text-[#4A443F] focus:border-[var(--color-soft-gold)] outline-none focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all"
                                             value={formData.region || ''}
                                             onChange={e => setFormData({ ...formData, region: e.target.value })}
                                             placeholder="지역 입력"
                                         />
                                     ) : (
-                                        <span className="text-slate-300">{client.region || '지역 미입력'}</span>
+                                        <span className="text-[#4A443F]/80 font-medium">{client.region || '지역 미입력'}</span>
                                     )}
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">상담 메모</label>
+                            <div className="relative z-20">
+                                <label className="text-xs font-bold text-[var(--color-midnight-blue)]/60 uppercase tracking-widest mb-1.5 block">상담 메모</label>
                                 {isEditing ? (
                                     <textarea
-                                        className="w-full bg-white/5 border border-white/10 rounded-lg p-3 focus:border-gold outline-none text-white resize-none"
+                                        className="w-full bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 text-[#4A443F] focus:border-[var(--color-soft-gold)] outline-none focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all resize-none"
                                         rows={3}
                                         value={formData.memo || ''}
                                         onChange={e => setFormData({ ...formData, memo: e.target.value })}
                                     />
                                 ) : (
-                                    <div className="bg-midnight/30 p-4 rounded-xl border border-white/5 text-slate-300 italic min-h-[80px]">
+                                    <div className="bg-[#B9B3A9] p-4 rounded-xl text-white italic min-h-[80px] font-medium shadow-inner backdrop-blur-sm relative z-20 overflow-hidden">
                                         {client.memo || '메모가 없습니다.'}
                                     </div>
                                 )}
@@ -290,10 +290,10 @@ export default function ClientDetailPage() {
                     </div>
 
                     {isEditing && (
-                        <div className="mt-8 pt-8 border-t border-white/10 flex justify-end">
+                        <div className="mt-8 pt-8 border-t border-[#FDF2E9] flex justify-end">
                             <button
                                 onClick={handleDelete}
-                                className="text-red-400 hover:text-red-300 flex items-center gap-2 text-sm font-medium px-4 py-2 hover:bg-red-500/10 rounded-lg transition-colors"
+                                className="text-red-500 hover:text-red-700 flex items-center gap-2 text-sm font-bold px-4 py-2 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100"
                             >
                                 <Archive size={16} />
                                 내담자 삭제 (복구 불가)
@@ -305,16 +305,16 @@ export default function ClientDetailPage() {
                 {/* Session History Section */}
                 <section>
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                            <Calendar className="text-gold" />
+                        <h2 className="text-xl font-bold text-[var(--color-midnight-blue)] flex items-center gap-2">
+                            <Calendar className="text-[var(--color-soft-gold)]" />
                             상담 기록
                         </h2>
                         <div className="flex gap-4 items-center">
-                            <Link href={`/session/tarot?clientId=${id}`} className="text-sm text-purple-400 hover:text-purple-300 hover:underline flex items-center gap-1 transition-colors">
+                            <Link href={`/session/tarot?clientId=${id}`} className="text-sm font-bold text-[#b498e5] hover:text-[#9b76de] flex items-center gap-1 transition-colors">
                                 <Sparkles size={14} />
                                 타로 상담 시작
                             </Link>
-                            <Link href={`/dashboard/sessions/new?clientId=${id}`} className="text-sm text-gold hover:underline">
+                            <Link href={`/dashboard/sessions/new?clientId=${id}`} className="text-sm font-bold text-[var(--color-soft-gold)] hover:text-[var(--color-midnight-blue)] transition-colors">
                                 + 새 상담 기록하기
                             </Link>
                         </div>
@@ -326,41 +326,41 @@ export default function ClientDetailPage() {
                                 <Link href={`/dashboard/sessions/${session.id}`} key={session.id}>
                                     <motion.div
                                         whileHover={{ x: 5 }}
-                                        className="bg-card border border-card-border rounded-xl p-6 hover:border-gold/50 transition-all cursor-pointer group flex items-center justify-between"
+                                        className="bg-white border border-[#FDF2E9] rounded-xl p-6 hover:border-[var(--color-soft-gold)] hover:shadow-md transition-all cursor-pointer group flex items-center justify-between shadow-sm"
                                     >
                                         <div className="space-y-1">
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-gold font-bold text-lg">
+                                            <div className="flex items-center gap-3 text-lg font-bold">
+                                                <span className="text-[var(--color-soft-gold)]">
                                                     {new Date(session.created_at).toLocaleDateString()}
                                                 </span>
-                                                <span className="text-slate-500 text-sm flex items-center gap-1">
+                                                <span className="text-[#4A443F]/50 text-sm flex items-center gap-1 font-medium bg-[#FDFBF7] px-2 py-0.5 rounded border border-[#FDF2E9]">
                                                     <Clock size={12} />
                                                     {new Date(session.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </span>
                                             </div>
-                                            <h3 className="text-white font-medium group-hover:text-gold transition-colors">
+                                            <h3 className="text-[var(--color-midnight-blue)] font-bold group-hover:text-[var(--color-soft-gold)] transition-colors mt-2 text-lg">
                                                 {session.tarot_question || '질문 없음'}
                                             </h3>
                                         </div>
                                         <div className="flex items-center gap-4">
                                             {/* Risk Flag Indicator */}
                                             {session.risk_flags && session.risk_flags.length > 0 && (
-                                                <span className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-xs font-bold border border-red-500/30">
+                                                <span className="bg-red-50 text-red-500 px-3 py-1 rounded-full text-xs font-bold border border-red-100">
                                                     RISK DETECTED
                                                 </span>
                                             )}
-                                            <ChevronRight className="text-slate-600 group-hover:text-gold transition-colors" />
+                                            <ChevronRight className="text-[#4A443F]/30 group-hover:text-[var(--color-soft-gold)] transition-colors" />
                                         </div>
                                     </motion.div>
                                 </Link>
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-20 bg-card border border-card-border rounded-xl border-dashed">
-                            <FileText className="mx-auto text-slate-500 mb-4" size={40} />
-                            <p className="text-slate-400">아직 상담 기록이 없습니다.</p>
+                        <div className="text-center py-20 bg-white border border-[#FDF2E9] rounded-xl border-dashed">
+                            <FileText className="mx-auto text-[#4A443F]/20 mb-4" size={40} />
+                            <p className="text-[#4A443F]/60 font-medium font-bold">아직 상담 기록이 없습니다.</p>
                             <Link href={`/dashboard/sessions/new?clientId=${id}`}>
-                                <button className="mt-4 text-gold hover:underline font-bold">
+                                <button className="mt-4 text-[var(--color-soft-gold)] hover:text-[var(--color-midnight-blue)] font-bold transition-colors">
                                     첫 상담 시작하기
                                 </button>
                             </Link>

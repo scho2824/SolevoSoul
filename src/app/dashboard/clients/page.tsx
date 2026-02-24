@@ -24,6 +24,7 @@ export default function ClientsPage() {
     const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')
+    const [showArchived, setShowArchived] = useState(false)
 
     // Form state
     const [nickname, setNickname] = useState('')
@@ -39,19 +40,25 @@ export default function ClientsPage() {
 
     useEffect(() => {
         fetchClients()
-    }, [])
+    }, [showArchived])
 
     const fetchClients = async () => {
         setLoading(true)
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
 
-        const { data, error } = await supabase
+        let query = supabase
             .from('clients')
             .select('*')
             .eq('counselor_id', user.id)
-            .or('status.neq.Archived,status.is.null')
-            .order('created_at', { ascending: false })
+
+        if (showArchived) {
+            query = query.eq('status', 'Archived')
+        } else {
+            query = query.or('status.neq.Archived,status.is.null')
+        }
+
+        const { data, error } = await query.order('created_at', { ascending: false })
 
         if (error) {
             console.error('Error fetching clients:', error)
@@ -125,16 +132,32 @@ export default function ClientsPage() {
             </header>
 
             <main className="flex-1 max-w-6xl w-full mx-auto p-6 space-y-6">
-                {/* Search Bar */}
-                <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-soft-gold)]" size={20} />
-                    <input
-                        type="text"
-                        placeholder="내담자 이름(닉네임) 검색..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl py-3 pl-12 pr-4 text-[#4A443F] placeholder:text-[#4A443F]/40 focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all shadow-sm"
-                    />
+                {/* Search & Filter Bar */}
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-soft-gold)]" size={20} />
+                        <input
+                            type="text"
+                            placeholder="내담자 이름(닉네임) 검색..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl py-3 pl-12 pr-4 text-[#4A443F] placeholder:text-[#4A443F]/40 focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all shadow-sm"
+                        />
+                    </div>
+                    <div className="flex bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-1 shrink-0">
+                        <button
+                            onClick={() => setShowArchived(false)}
+                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all flex-1 sm:flex-none ${!showArchived ? 'bg-white shadow-sm text-[var(--color-midnight-blue)] border border-[#FDF2E9]' : 'text-[#4A443F]/60 hover:text-[#4A443F] border border-transparent'}`}
+                        >
+                            상담 진행 중
+                        </button>
+                        <button
+                            onClick={() => setShowArchived(true)}
+                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all flex-1 sm:flex-none ${showArchived ? 'bg-white shadow-sm text-[var(--color-midnight-blue)] border border-[#FDF2E9]' : 'text-[#4A443F]/60 hover:text-[#4A443F] border border-transparent'}`}
+                        >
+                            보관된 내담자
+                        </button>
+                    </div>
                 </div>
 
                 {/* Clients List */}

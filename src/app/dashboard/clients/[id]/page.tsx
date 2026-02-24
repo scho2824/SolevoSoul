@@ -17,6 +17,7 @@ interface Client {
     gender: string | null
     region: string | null
     memo: string | null
+    status: string | null
     created_at: string
 }
 
@@ -139,7 +140,14 @@ export default function ClientDetailPage() {
                         <Link href="/dashboard/clients" className="text-[#4A443F] hover:text-[var(--color-midnight-blue)] transition-colors">
                             <ArrowLeft size={20} />
                         </Link>
-                        <h1 className="text-xl font-bold text-[var(--color-midnight-blue)] tracking-tight">{isEditing ? '내담자 정보 수정' : client.nickname}</h1>
+                        <h1 className="text-xl font-bold text-[var(--color-midnight-blue)] tracking-tight flex items-center gap-2">
+                            {isEditing ? '내담자 정보 수정' : client.nickname}
+                            {client.status === 'Archived' && (
+                                <span className="text-[10px] bg-gray-200 text-gray-600 px-2 py-0.5 rounded uppercase tracking-wider font-bold">
+                                    보관됨
+                                </span>
+                            )}
+                        </h1>
                     </div>
                     <div className="flex gap-2">
                         {isEditing ? (
@@ -153,20 +161,44 @@ export default function ClientDetailPage() {
                                 <button
                                     onClick={handleUpdate}
                                     disabled={saving}
-                                    className="bg-[var(--color-soft-gold)] text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-[var(--color-soft-gold)]/90 transition-all active:scale-95 disabled:opacity-50 shadow-sm"
+                                    className="bg-[var(--color-soft-gold)] text-white px-4 py-2 rounded-lg font-bold hover:bg-[var(--color-soft-gold)]/90 transition-all active:scale-95 shadow-sm disabled:opacity-50"
                                 >
-                                    <Save size={18} />
-                                    저장
+                                    {saving ? '저장 중...' : '저장 완료'}
                                 </button>
                             </>
                         ) : (
-                            <button
-                                onClick={() => setIsEditing(true)}
-                                className="bg-white border-2 border-[var(--color-soft-gold)] text-[var(--color-soft-gold)] px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-[var(--color-soft-gold)] hover:text-white transition-all active:scale-95 shadow-sm"
-                            >
-                                <Edit2 size={18} />
-                                수정
-                            </button>
+                            <>
+                                {client.status === 'Archived' && (
+                                    <button
+                                        onClick={async () => {
+                                            if (!confirm('이 내담자를 다시 활성화하시겠습니까?')) return;
+                                            try {
+                                                const { error } = await supabase.from('clients').update({ status: 'Active' }).eq('id', id);
+                                                if (error) throw error;
+                                                setClient({ ...client, status: 'Active' } as Client);
+                                                toast.success('내담자가 다시 활성화되었습니다.');
+                                            } catch (error: any) {
+                                                toast.error(`활성화 중 오류 발생: ${error.message}`);
+                                            }
+                                        }}
+                                        className="bg-[#FDFBF7] border border-[var(--color-soft-gold)] shrink-0 text-[var(--color-soft-gold)] px-4 py-2 rounded-lg font-bold hover:bg-[var(--color-soft-gold)]/10 transition-all active:scale-95 shadow-sm"
+                                    >
+                                        복구하기
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                    className="bg-white border text-[#4A443F] px-4 py-2 rounded-lg font-bold hover:bg-gray-50 transition-all active:scale-95 shadow-sm"
+                                >
+                                    수정
+                                </button>
+                                <Link
+                                    href={`/dashboard/sessions/new?clientId=${client.id}`}
+                                    className="bg-[var(--color-midnight-blue)] text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-slate-800 transition-colors shadow-sm"
+                                >
+                                    새 상담 기록창
+                                </Link>
+                            </>
                         )}
                     </div>
                 </div>
@@ -291,13 +323,15 @@ export default function ClientDetailPage() {
 
                     {isEditing && (
                         <div className="mt-8 pt-8 border-t border-[#FDF2E9] flex justify-end">
-                            <button
-                                onClick={handleArchive}
-                                className="text-[#4A443F]/60 hover:text-[var(--color-midnight-blue)] flex items-center gap-2 text-sm font-bold px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors border border-transparent hover:border-gray-200"
-                            >
-                                <Archive size={16} />
-                                내담자 보관 (목록 숨김)
-                            </button>
+                            {client.status !== 'Archived' && (
+                                <button
+                                    onClick={handleArchive}
+                                    className="text-[#4A443F]/60 hover:text-[var(--color-midnight-blue)] flex items-center gap-2 text-sm font-bold px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors border border-transparent hover:border-gray-200"
+                                >
+                                    <Archive size={16} />
+                                    내담자 보관 (목록 숨김)
+                                </button>
+                            )}
                         </div>
                     )}
                 </section>

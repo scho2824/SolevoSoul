@@ -106,21 +106,21 @@ export default function ClientDetailPage() {
         }
     }
 
-    const handleDelete = async () => {
-        if (!confirm('정말로 이 내담자를 삭제하시겠습니까? 관련된 모든 상담 기록이 영구적으로 삭제될 수 있습니다.')) return
+    const handleArchive = async () => {
+        if (!confirm('이 내담자를 보관(목록 숨김) 처리하시겠습니까? (기록은 안전하게 보존됩니다)')) return
 
         try {
             const { error } = await supabase
                 .from('clients')
-                .delete()
+                .update({ status: 'Archived' })
                 .eq('id', id)
 
             if (error) throw error
 
-            toast.success('내담자가 삭제되었습니다.')
+            toast.success('내담자가 보관 처리되어 목록에서 숨겨졌습니다.')
             router.push('/dashboard/clients')
         } catch (error: any) {
-            toast.error(`삭제 중 오류가 발생했습니다: ${error.message}`)
+            toast.error(`보관 처리 중 오류가 발생했습니다: ${error.message}`)
         }
     }
 
@@ -292,11 +292,11 @@ export default function ClientDetailPage() {
                     {isEditing && (
                         <div className="mt-8 pt-8 border-t border-[#FDF2E9] flex justify-end">
                             <button
-                                onClick={handleDelete}
-                                className="text-red-500 hover:text-red-700 flex items-center gap-2 text-sm font-bold px-4 py-2 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100"
+                                onClick={handleArchive}
+                                className="text-[#4A443F]/60 hover:text-[var(--color-midnight-blue)] flex items-center gap-2 text-sm font-bold px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors border border-transparent hover:border-gray-200"
                             >
                                 <Archive size={16} />
-                                내담자 삭제 (복구 불가)
+                                내담자 보관 (목록 숨김)
                             </button>
                         </div>
                     )}

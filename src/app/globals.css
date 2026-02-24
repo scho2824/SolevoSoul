@@ -50,6 +50,8 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
+  /* Block pull-to-refresh */
 }
 
 /* Custom Scrollbar for a premium feel */

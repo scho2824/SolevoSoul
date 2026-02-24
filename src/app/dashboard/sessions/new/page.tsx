@@ -81,6 +81,55 @@ function NewSessionContent() {
         init()
     }, [loadDeck, urlClientId])
 
+    // Restore Draft
+    useEffect(() => {
+        const draft = localStorage.getItem('solevo_session_draft')
+        if (draft) {
+            if (window.confirm('작성 중이던 이전 상담 기록이 있습니다. 복구하시겠습니까?')) {
+                try {
+                    const parsed = JSON.parse(draft)
+                    if (parsed.transcript) setTranscript(parsed.transcript)
+                    if (parsed.counselorMemo) setCounselorMemo(parsed.counselorMemo)
+                    if (parsed.tarotQuestion) setTarotQuestion(parsed.tarotQuestion)
+                    if (parsed.aiInterpretation) setAiInterpretation(parsed.aiInterpretation)
+                    if (parsed.drawnCards) setDrawnCards(parsed.drawnCards)
+                    if (parsed.audioSegments) setAudioSegments(parsed.audioSegments)
+                } catch (e) {
+                    console.error('Failed to parse draft', e)
+                }
+            } else {
+                localStorage.removeItem('solevo_session_draft')
+            }
+        }
+    }, [])
+
+    // Auto-Save Draft and BeforeUnload Warning
+    useEffect(() => {
+        const hasData = transcript || counselorMemo || tarotQuestion || aiInterpretation || drawnCards.length > 0 || audioSegments.length > 0;
+
+        if (hasData) {
+            const draft = {
+                transcript,
+                counselorMemo,
+                tarotQuestion,
+                aiInterpretation,
+                drawnCards,
+                audioSegments
+            }
+            localStorage.setItem('solevo_session_draft', JSON.stringify(draft))
+        }
+
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (hasData) {
+                e.preventDefault()
+                e.returnValue = '' // Required for Chrome/Edge
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+    }, [transcript, counselorMemo, tarotQuestion, aiInterpretation, drawnCards, audioSegments])
+
     const fetchClients = async () => {
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
@@ -242,6 +291,7 @@ function NewSessionContent() {
                 await supabase.from('tarot_cards').insert(cardsToInsert);
             }
 
+            localStorage.removeItem('solevo_session_draft')
             toast.success('세션이 저장되었습니다.')
             router.push('/dashboard')
         } catch (error: any) {

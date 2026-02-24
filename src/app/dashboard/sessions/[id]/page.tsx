@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { ArrowLeft, Calendar, User, FileText, Sparkles, Clock, AlertTriangle, Send } from "lucide-react";
+import { ArrowLeft, Calendar, User, FileText, Sparkles, Clock, AlertTriangle, Send, PenTool, BookOpen } from "lucide-react";
 import Link from "next/link";
 import TarotCard from "@/components/Tarot/TarotCard";
 import { useParams, useRouter } from "next/navigation";
@@ -13,6 +13,7 @@ interface SessionDetail {
     id: string;
     created_at: string;
     transcript_text: string | null;
+    counselor_memo: string | null;
     interpretation_text: string | null;
     tarot_question: string | null;
     risk_flags: string[] | null;
@@ -46,7 +47,7 @@ export default function SessionDetailPage() {
             const { data, error } = await supabase
                 .from('sessions')
                 .select(`
-                    id, created_at, transcript_text, interpretation_text, tarot_question, risk_flags, sentiment_score,
+                    id, created_at, transcript_text, counselor_memo, interpretation_text, tarot_question, risk_flags, sentiment_score,
                     client:clients(nickname),
                     tarot_cards(card_name, position_meaning, interpretation, image_url)
                 `)
@@ -199,16 +200,28 @@ export default function SessionDetailPage() {
                     </section>
                 )}
 
-                {/* Full Transcript Section */}
-                <section className="bg-white border border-[#FDF2E9] rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
-                    <h2 className="text-lg font-bold text-[#4A443F] flex items-center gap-2">
-                        <FileText size={18} />
-                        전체 녹취록
-                    </h2>
-                    <div className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] text-sm whitespace-pre-wrap leading-relaxed h-64 overflow-y-auto custom-scrollbar">
-                        {session.transcript_text || "녹취 기록이 없습니다."}
-                    </div>
-                </section>
+                {/* Full Transcript Section & Counselor Memo */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <section className="bg-white border border-[#FDF2E9] rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm h-full flex flex-col">
+                        <h2 className="text-lg font-bold text-[#4A443F] flex items-center gap-2">
+                            <PenTool size={18} className="text-[var(--color-soft-gold)]" />
+                            상담 회기 노트
+                        </h2>
+                        <div className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] text-sm whitespace-pre-wrap leading-relaxed h-64 overflow-y-auto custom-scrollbar">
+                            {session.transcript_text || "기록된 상담 노트가 없습니다."}
+                        </div>
+                    </section>
+
+                    <section className="bg-white border border-[#FDF2E9] rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm h-full flex flex-col">
+                        <h2 className="text-lg font-bold text-[#4A443F] flex items-center gap-2">
+                            <BookOpen size={18} className="text-[var(--color-soft-gold)]" />
+                            상담사 개인 메모
+                        </h2>
+                        <div className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] text-sm whitespace-pre-wrap leading-relaxed h-64 overflow-y-auto custom-scrollbar font-medium">
+                            {session.counselor_memo || "기록된 개인 메모가 없습니다."}
+                        </div>
+                    </section>
+                </div>
 
             </main>
         </div>

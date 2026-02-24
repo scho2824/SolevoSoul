@@ -50,7 +50,7 @@ export default function ClientsPage() {
             .from('clients')
             .select('*')
             .eq('counselor_id', user.id)
-            .neq('status', 'Archived')
+            .or('status.neq.Archived,status.is.null')
             .order('created_at', { ascending: false })
 
         if (error) {

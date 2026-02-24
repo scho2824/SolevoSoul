@@ -28,6 +28,7 @@ function NewSessionContent() {
 
     // Core Data State
     const [transcript, setTranscript] = useState('')
+    const [counselorMemo, setCounselorMemo] = useState('')
     const [tarotQuestion, setTarotQuestion] = useState('')
     const [aiInterpretation, setAiInterpretation] = useState('')
 
@@ -198,6 +199,7 @@ function NewSessionContent() {
                         client_id: selectedClientId,
                         counselor_id: user.id,
                         transcript_text: transcript,
+                        counselor_memo: counselorMemo,
                         tarot_question: tarotQuestion,
                         interpretation_text: aiInterpretation,
                         date: new Date().toISOString()
@@ -272,43 +274,53 @@ function NewSessionContent() {
                             <User size={20} className="text-[var(--color-soft-gold)]" />
                             상담 내담자
                         </div>
-                        <input
-                            type="text"
-                            placeholder="내담자 검색..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-lg px-3 py-1.5 text-sm w-48 focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] text-[#4A443F] placeholder:text-[#4A443F]/40 shadow-sm"
-                        />
+                        {!urlClientId && (
+                            <input
+                                type="text"
+                                placeholder="내담자 검색..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-lg px-3 py-1.5 text-sm w-48 focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] text-[#4A443F] placeholder:text-[#4A443F]/40 shadow-sm"
+                            />
+                        )}
                     </label>
 
-                    {/* Simplified Client Selector */}
-                    <div className="max-h-60 overflow-y-auto pr-2 scrollbar-hide">
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                            {loading ? (
-                                Array.from({ length: 4 }).map((_, i) => (
-                                    <Skeleton key={i} className="h-12 w-full rounded-xl bg-white/5" />
-                                ))
-                            ) : (
-                                clients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).map((client) => (
-                                    <button
-                                        key={client.id}
-                                        onClick={() => setSelectedClientId(client.id)}
-                                        className={`p-3 rounded-xl border text-sm font-medium transition-all ${selectedClientId === client.id
-                                            ? 'bg-[var(--color-soft-gold)] text-white border-[var(--color-soft-gold)] shadow-md'
-                                            : 'bg-white border-[#FDF2E9] text-[#4A443F] hover:border-[var(--color-soft-gold)]/50 hover:bg-[#FDFBF7] shadow-sm'
-                                            }`}
-                                    >
-                                        {client.nickname}
-                                    </button>
-                                ))
-                            )}
-                            {!loading && clients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
-                                <div className="col-span-full py-4 text-center text-sm text-slate-500">
-                                    검색된 내담자가 없습니다.
-                                </div>
-                            )}
+                    {urlClientId && clients.find(c => c.id === urlClientId) ? (
+                        <div className="p-4 bg-[#FDFBF7] border border-[var(--color-soft-gold)] rounded-xl text-[#4A443F] font-bold shadow-sm flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-[var(--color-soft-gold)]/10 flex items-center justify-center text-[var(--color-soft-gold)] font-bold text-lg">
+                                {clients.find(c => c.id === urlClientId)?.nickname[0]}
+                            </div>
+                            <span className="text-xl">{clients.find(c => c.id === urlClientId)?.nickname} 님과의 상담</span>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="max-h-60 overflow-y-auto pr-2 scrollbar-hide">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                {loading ? (
+                                    Array.from({ length: 4 }).map((_, i) => (
+                                        <Skeleton key={i} className="h-12 w-full rounded-xl bg-white/5" />
+                                    ))
+                                ) : (
+                                    clients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).map((client) => (
+                                        <button
+                                            key={client.id}
+                                            onClick={() => setSelectedClientId(client.id)}
+                                            className={`p-3 rounded-xl border text-sm font-medium transition-all ${selectedClientId === client.id
+                                                ? 'bg-[var(--color-soft-gold)] text-white border-[var(--color-soft-gold)] shadow-md'
+                                                : 'bg-white border-[#FDF2E9] text-[#4A443F] hover:border-[var(--color-soft-gold)]/50 hover:bg-[#FDFBF7] shadow-sm'
+                                                }`}
+                                        >
+                                            {client.nickname}
+                                        </button>
+                                    ))
+                                )}
+                                {!loading && clients.filter(c => c.nickname.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                                    <div className="col-span-full py-4 text-center text-sm text-slate-500">
+                                        검색된 내담자가 없습니다.
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -318,17 +330,28 @@ function NewSessionContent() {
                         onTranscriptionComplete={handleTranscriptionComplete}
                     />
 
-                    {/* Transcript Editor */}
+                    {/* Transcript & Memo Editor */}
                     <div className="bg-white border border-[#FDF2E9] rounded-2xl p-6 flex flex-col h-full shadow-sm">
                         <label className="flex items-center gap-2 text-[#4A443F] font-bold mb-4">
                             <PenTool size={20} className="text-[var(--color-soft-gold)]" />
-                            상담 노트 (자동 변환)
+                            상담 노트 (음성 변환 기록)
                         </label>
                         <textarea
                             value={transcript}
                             onChange={(e) => setTranscript(e.target.value)}
-                            placeholder="음성 인식된 내용이 여기에 표시됩니다. 직접 수정할 수도 있습니다."
-                            className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-2 focus:ring-[var(--color-soft-gold)]/20 transition-all resize-none h-[200px] shadow-inner placeholder:text-[#4A443F]/40"
+                            placeholder="음성 변환된 내용이 여기에 추가됩니다. 직접 입력하거나 수정할 수 있습니다."
+                            className="flex-1 bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all resize-y min-h-[300px] shadow-inner placeholder:text-[#4A443F]/40"
+                        />
+
+                        <label className="flex items-center gap-2 text-[#4A443F] font-bold mt-8 mb-4 pt-6 border-t border-[#FDF2E9]">
+                            <BookOpen size={20} className="text-[var(--color-soft-gold)]" />
+                            상담사 개인 메모
+                        </label>
+                        <textarea
+                            value={counselorMemo}
+                            onChange={(e) => setCounselorMemo(e.target.value)}
+                            placeholder="내담자 특이사항, 다음 회기 목표 등 상담사만 볼 수 있는 메모를 남겨주세요."
+                            className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all resize-y min-h-[150px] shadow-inner placeholder:text-[#4A443F]/40"
                         />
                     </div>
                 </div>

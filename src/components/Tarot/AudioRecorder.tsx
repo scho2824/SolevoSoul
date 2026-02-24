@@ -10,6 +10,7 @@ import { transcribeAudio } from "@/app/actions/stt";
 interface AudioRecorderProps {
     sessionId: string;
     onTranscriptionComplete: (text: string) => void;
+    onAudioUpdate?: (segments: AudioSegment[]) => void;
 }
 
 export interface AudioSegment {
@@ -21,7 +22,7 @@ export interface AudioSegment {
     isTranscribed: boolean;
 }
 
-export default function AudioRecorder({ sessionId, onTranscriptionComplete }: AudioRecorderProps) {
+export default function AudioRecorder({ sessionId, onTranscriptionComplete, onAudioUpdate }: AudioRecorderProps) {
     const [isRecording, setIsRecording] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [duration, setDuration] = useState(0);
@@ -36,6 +37,12 @@ export default function AudioRecorder({ sessionId, onTranscriptionComplete }: Au
     const [micError, setMicError] = useState(false);
 
     const supabase = createClient();
+
+    useEffect(() => {
+        if (onAudioUpdate) {
+            onAudioUpdate(segments);
+        }
+    }, [segments, onAudioUpdate]);
 
     const startRecording = async () => {
         try {
@@ -237,12 +244,12 @@ export default function AudioRecorder({ sessionId, onTranscriptionComplete }: Au
                                 onClick={() => handleTranscribe(segment.id, segment.publicUrl)}
                                 disabled={segment.isTranscribing || segment.isTranscribed || isRecording}
                                 className={`text-xs px-4 py-2 font-bold rounded-lg transition-colors shadow-sm whitespace-nowrap ${segment.isTranscribed
-                                        ? "bg-green-100 text-green-700 opacity-50 cursor-not-allowed"
-                                        : segment.isTranscribing
-                                            ? "bg-white border-2 border-[var(--color-soft-gold)] text-[var(--color-soft-gold)] opacity-50 cursor-not-allowed flex items-center gap-1"
-                                            : isRecording
-                                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                                : "bg-[var(--color-midnight-blue)] text-white hover:bg-[#4A443F]"
+                                    ? "bg-green-100 text-green-700 opacity-50 cursor-not-allowed"
+                                    : segment.isTranscribing
+                                        ? "bg-white border-2 border-[var(--color-soft-gold)] text-[var(--color-soft-gold)] opacity-50 cursor-not-allowed flex items-center gap-1"
+                                        : isRecording
+                                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                            : "bg-[var(--color-midnight-blue)] text-white hover:bg-[#4A443F]"
                                     }`}
                             >
                                 {segment.isTranscribing && <Loader2 size={12} className="animate-spin" />}

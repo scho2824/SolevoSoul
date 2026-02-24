@@ -15,6 +15,7 @@ import { interpretTarotReading } from '@/app/actions/ai'
 import SendCardModal from '@/components/Tarot/SendCardModal'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { Suspense } from 'react'
+import type { AudioSegment } from '@/components/Tarot/AudioRecorder'
 
 interface Client {
     id: string
@@ -46,6 +47,7 @@ function NewSessionContent() {
     const [spreadType, setSpreadType] = useState<{ count: number, name: string, type: '1-card' | '3-card' | 'celtic-cross' }>({ count: 3, name: '3 Card Spread', type: '3-card' })
     const [drawnCards, setDrawnCards] = useState<any[]>([])
     const [isRevealed, setIsRevealed] = useState(false)
+    const [audioSegments, setAudioSegments] = useState<AudioSegment[]>([])
 
     // Helper for manual audio upload (if needed alongside AudioRecorder)
     const [uploadedAudioFiles, setUploadedAudioFiles] = useState<File[]>([])
@@ -202,6 +204,12 @@ function NewSessionContent() {
                         counselor_memo: counselorMemo,
                         tarot_question: tarotQuestion,
                         interpretation_text: aiInterpretation,
+                        audio_files: audioSegments.length > 0 ? audioSegments.map((s, index) => ({
+                            name: `녹음 ${index + 1}`,
+                            path: `${selectedClientId}/${s.filename}`,
+                            url: s.publicUrl,
+                            duration: s.duration
+                        })) : [],
                         date: new Date().toISOString()
                     }
                 ])
@@ -328,6 +336,7 @@ function NewSessionContent() {
                     <AudioRecorder
                         sessionId={selectedClientId || 'temp'} // Ideally valid session ID, but client ID works for bucket path
                         onTranscriptionComplete={handleTranscriptionComplete}
+                        onAudioUpdate={setAudioSegments}
                     />
 
                     {/* Transcript & Memo Editor */}

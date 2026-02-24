@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { ArrowLeft, Calendar, User, FileText, Sparkles, Clock, AlertTriangle, Send, PenTool, BookOpen } from "lucide-react";
+import { ArrowLeft, Calendar, User, FileText, Sparkles, Clock, AlertTriangle, Send, PenTool, BookOpen, Mic } from "lucide-react";
 import Link from "next/link";
 import TarotCard from "@/components/Tarot/TarotCard";
 import { useParams, useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ interface SessionDetail {
     tarot_question: string | null;
     risk_flags: string[] | null;
     sentiment_score: number | null;
+    audio_files: { name: string; url: string; duration: number }[] | null;
     client: {
         nickname: string;
     };
@@ -47,7 +48,7 @@ export default function SessionDetailPage() {
             const { data, error } = await supabase
                 .from('sessions')
                 .select(`
-                    id, created_at, transcript_text, counselor_memo, interpretation_text, tarot_question, risk_flags, sentiment_score,
+                    id, created_at, transcript_text, counselor_memo, interpretation_text, tarot_question, risk_flags, sentiment_score, audio_files,
                     client:clients(nickname),
                     tarot_cards(card_name, position_meaning, interpretation, image_url)
                 `)
@@ -196,6 +197,29 @@ export default function SessionDetailPage() {
                         </h2>
                         <div className="prose prose-stone max-w-none text-[#4A443F] whitespace-pre-wrap leading-relaxed">
                             {session.interpretation_text}
+                        </div>
+                    </section>
+                )}
+
+                {/* Audio Records Section */}
+                {session.audio_files && session.audio_files.length > 0 && (
+                    <section className="bg-white border border-[#FDF2E9] rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
+                        <h2 className="text-lg font-bold text-[#4A443F] flex items-center gap-2">
+                            <Mic size={18} className="text-[var(--color-soft-gold)]" />
+                            상담 원본 음성 기록
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {session.audio_files.map((audio, idx) => (
+                                <div key={idx} className="bg-[#FDFBF7] border border-[#FDF2E9] p-4 rounded-xl flex flex-col gap-3 shadow-sm">
+                                    <div className="flex justify-between items-center">
+                                        <span className="font-bold text-sm text-[var(--color-midnight-blue)]">{audio.name || `녹음 ${idx + 1}`}</span>
+                                        <span className="text-xs text-[#4A443F]/60 font-mono">
+                                            {Math.floor(audio.duration / 60)}:{(audio.duration % 60).toString().padStart(2, '0')}
+                                        </span>
+                                    </div>
+                                    <audio controls src={audio.url} className="w-full h-8 outline-none" preload="metadata" />
+                                </div>
+                            ))}
                         </div>
                     </section>
                 )}

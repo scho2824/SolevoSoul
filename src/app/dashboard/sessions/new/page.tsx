@@ -30,6 +30,7 @@ function NewSessionContent() {
     // Core Data State
     const [transcript, setTranscript] = useState('')
     const [counselorMemo, setCounselorMemo] = useState('')
+    const [sessionDate, setSessionDate] = useState(() => new Date().toISOString().split('T')[0])
     const [tarotQuestion, setTarotQuestion] = useState('')
     const [aiInterpretation, setAiInterpretation] = useState('')
 
@@ -94,6 +95,7 @@ function NewSessionContent() {
                     if (parsed.aiInterpretation) setAiInterpretation(parsed.aiInterpretation)
                     if (parsed.drawnCards) setDrawnCards(parsed.drawnCards)
                     if (parsed.audioSegments) setAudioSegments(parsed.audioSegments)
+                    if (parsed.sessionDate) setSessionDate(parsed.sessionDate)
                 } catch (e) {
                     console.error('Failed to parse draft', e)
                 }
@@ -114,7 +116,8 @@ function NewSessionContent() {
                 tarotQuestion,
                 aiInterpretation,
                 drawnCards,
-                audioSegments
+                audioSegments,
+                sessionDate
             }
             localStorage.setItem('solevo_session_draft', JSON.stringify(draft))
         }
@@ -128,7 +131,7 @@ function NewSessionContent() {
 
         window.addEventListener('beforeunload', handleBeforeUnload)
         return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-    }, [transcript, counselorMemo, tarotQuestion, aiInterpretation, drawnCards, audioSegments])
+    }, [transcript, counselorMemo, tarotQuestion, aiInterpretation, drawnCards, audioSegments, sessionDate])
 
     const fetchClients = async () => {
         const { data: { user } } = await supabase.auth.getUser()
@@ -259,7 +262,7 @@ function NewSessionContent() {
                             url: s.publicUrl,
                             duration: s.duration
                         })) : [],
-                        date: new Date().toISOString()
+                        date: new Date(sessionDate).toISOString() // User selected date
                     }
                 ])
                 .select()
@@ -391,10 +394,18 @@ function NewSessionContent() {
 
                     {/* Transcript & Memo Editor */}
                     <div className="bg-white border border-[#FDF2E9] rounded-2xl p-6 flex flex-col h-full shadow-sm">
-                        <label className="flex items-center gap-2 text-[#4A443F] font-bold mb-4">
-                            <PenTool size={20} className="text-[var(--color-soft-gold)]" />
-                            상담 노트 (음성 변환 기록)
-                        </label>
+                        <div className="flex items-center justify-between mb-4">
+                            <label className="flex items-center gap-2 text-[#4A443F] font-bold">
+                                <PenTool size={20} className="text-[var(--color-soft-gold)]" />
+                                상담 노트 (음성 변환 기록)
+                            </label>
+                            <input
+                                type="date"
+                                value={sessionDate}
+                                onChange={(e) => setSessionDate(e.target.value)}
+                                className="text-sm bg-[#FDFBF7] border border-[#FDF2E9] text-[#4A443F] rounded-lg px-3 py-1.5 focus:outline-none focus:border-[var(--color-soft-gold)] shadow-inner"
+                            />
+                        </div>
                         <textarea
                             value={transcript}
                             onChange={(e) => setTranscript(e.target.value)}
@@ -410,7 +421,7 @@ function NewSessionContent() {
                             value={counselorMemo}
                             onChange={(e) => setCounselorMemo(e.target.value)}
                             placeholder="내담자 특이사항, 다음 회기 목표 등 상담사만 볼 수 있는 메모를 남겨주세요."
-                            className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all resize-y min-h-[150px] shadow-inner placeholder:text-[#4A443F]/40"
+                            className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-5 text-[#4A443F] focus:outline-none focus:border-[var(--color-soft-gold)] focus:ring-1 focus:ring-[var(--color-soft-gold)] transition-all resize-y min-h-[250px] shadow-inner placeholder:text-[#4A443F]/40"
                         />
                     </div>
                 </div>

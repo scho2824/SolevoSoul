@@ -17,6 +17,7 @@ interface Client {
     region: string | null
     memo: string | null
     created_at: string
+    sessions?: { id: string, date: string }[]
 }
 
 export default function ClientsPage() {
@@ -25,6 +26,7 @@ export default function ClientsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')
     const [showArchived, setShowArchived] = useState(false)
+    const [expandedHistory, setExpandedHistory] = useState<string | null>(null)
 
     // Form state
     const [nickname, setNickname] = useState('')
@@ -49,7 +51,7 @@ export default function ClientsPage() {
 
         let query = supabase
             .from('clients')
-            .select('*')
+            .select('*, sessions(id, date)')
             .eq('counselor_id', user.id)
 
         if (showArchived) {
@@ -224,6 +226,43 @@ export default function ClientsPage() {
                                     </div>
                                     {client.memo && (
                                         <p className="text-sm text-[#4A443F]/60 mt-4 line-clamp-2 italic leading-relaxed">"{client.memo}"</p>
+                                    )}
+
+                                    {client.sessions && client.sessions.length > 0 && (
+                                        <div className="mt-4 border-t border-[#FDF2E9] pt-3" onClick={(e) => {
+                                            e.preventDefault(); // Prevent navigating to detail page if clicking dropdown
+                                            setExpandedHistory(expandedHistory === client.id ? null : client.id)
+                                        }}>
+                                            <button className="flex items-center justify-between w-full text-sm font-bold text-[#4A443F] hover:text-[var(--color-soft-gold)] transition-colors">
+                                                <span>상담 진행 내역</span>
+                                                <span className="bg-[#FDFBF7] px-2 py-0.5 rounded-full text-xs border border-[#FDF2E9]">{client.sessions.length}회</span>
+                                            </button>
+
+                                            <AnimatePresence>
+                                                {expandedHistory === client.id && (
+                                                    <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        className="overflow-hidden mt-3"
+                                                        onClick={(e) => e.stopPropagation()} // Let links inside work
+                                                    >
+                                                        <div className="bg-[#FDFBF7] border border-[#FDF2E9] rounded-xl p-3 flex flex-col gap-2 max-h-32 overflow-y-auto custom-scrollbar shadow-inner">
+                                                            {[...client.sessions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(s => (
+                                                                <Link
+                                                                    key={s.id}
+                                                                    href={`/dashboard/sessions/${s.id}`}
+                                                                    className="text-xs text-[#4A443F]/80 hover:text-[var(--color-soft-gold)] hover:underline flex items-center gap-2"
+                                                                >
+                                                                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-soft-gold)]/50"></span>
+                                                                    {new Date(s.date).toLocaleDateString()} 상담
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
                                     )}
                                 </motion.div>
                             </Link>

@@ -349,9 +349,8 @@ export default function ClientsPage() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-bold text-[#4A443F] ml-1">이메일 *</label>
+                                        <label className="text-sm font-bold text-[#4A443F] ml-1">이메일 (선택)</label>
                                         <input
-                                            required
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}

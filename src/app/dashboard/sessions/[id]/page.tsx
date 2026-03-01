@@ -19,6 +19,7 @@ interface SessionDetail {
     risk_flags: string[] | null;
     sentiment_score: number | null;
     audio_files: { name: string; url: string; duration: number }[] | null;
+    client_id: string;
     client: {
         nickname: string;
     };
@@ -38,6 +39,10 @@ export default function SessionDetailPage() {
     const supabase = createClient();
     const router = useRouter();
 
+    const [isEditingDate, setIsEditingDate] = useState(false);
+    const [editDateValue, setEditDateValue] = useState("");
+    const [savingDate, setSavingDate] = useState(false);
+
     useEffect(() => {
         setIsMounted(true);
         if (id) fetchSession();
@@ -48,7 +53,7 @@ export default function SessionDetailPage() {
             const { data, error } = await supabase
                 .from('sessions')
                 .select(`
-                    id, created_at, transcript_text, counselor_memo, interpretation_text, tarot_question, risk_flags, sentiment_score, audio_files,
+                    id, created_at, transcript_text, counselor_memo, interpretation_text, tarot_question, risk_flags, sentiment_score, audio_files, client_id,
                     client:clients(nickname),
                     tarot_cards(card_name, position_meaning, interpretation, image_url)
                 `)
@@ -57,6 +62,7 @@ export default function SessionDetailPage() {
 
             if (error) throw error;
             setSession(data as unknown as SessionDetail);
+            setEditDateValue(new Date(data.created_at).toISOString().split('T')[0]);
         } catch (error) {
             console.error("Error fetching session:", error);
             // toast.error("세션을 불러오는데 실패했습니다.");
@@ -72,6 +78,29 @@ export default function SessionDetailPage() {
             success: '전송이 완료되었습니다!',
             error: '전송 실패'
         });
+    };
+
+    const handleSaveDate = async () => {
+        if (!session) return;
+        setSavingDate(true);
+        try {
+            const newDate = new Date(editDateValue).toISOString();
+            const { error } = await supabase
+                .from('sessions')
+                .update({ created_at: newDate })
+                .eq('id', session.id);
+
+            if (error) throw error;
+
+            setSession({ ...session, created_at: newDate } as SessionDetail);
+            setIsEditingDate(false);
+            toast.success("상담 날짜가 변경되었습니다.");
+        } catch (error) {
+            console.error("Error updating date:", error);
+            toast.error("날짜 변경 중 오류가 발생했습니다.");
+        } finally {
+            setSavingDate(false);
+        }
     };
 
     // Wait for hydration to complete to avoid server/client mismatch for Dates
@@ -101,7 +130,7 @@ export default function SessionDetailPage() {
             <header className="border-b border-[#FDF2E9] bg-white/80 backdrop-blur-md sticky top-0 z-40 shadow-sm">
                 <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <Link href="/dashboard/sessions" className="text-[#4A443F] hover:text-[var(--color-midnight-blue)] transition-colors">
+                        <Link href={`/dashboard/clients/${session.client_id}`} className="text-[#4A443F] hover:text-[var(--color-midnight-blue)] transition-colors">
                             <ArrowLeft size={20} />
                         </Link>
                         <h1 className="text-lg font-bold text-[var(--foreground)] flex items-center gap-2">
@@ -111,7 +140,41 @@ export default function SessionDetailPage() {
                     <div className="flex items-center gap-4">
                         <div className="text-xs text-[#4A443F] flex items-center gap-1.5 font-medium bg-[#FDFBF7] px-3 py-1.5 rounded-full border border-[#FDF2E9]">
                             <Calendar size={14} />
-                            {new Date(session.created_at).toLocaleDateString()} {new Date(session.created_at).toLocaleTimeString()}
+                            {isEditingDate ? (
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="date"
+                                        value={editDateValue}
+                                        onChange={(e) => setEditDateValue(e.target.value)}
+                                        className="bg-transparent border-b border-[#4A443F] focus:outline-none focus:border-[var(--color-soft-gold)]"
+                                    />
+                                    <button
+                                        onClick={handleSaveDate}
+                                        disabled={savingDate}
+                                        className="text-[var(--color-soft-gold)] font-bold hover:underline ml-1"
+                                    >
+                                        {savingDate ? "저장 중..." : "저장"}
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setIsEditingDate(false);
+                                            setEditDateValue(new Date(session.created_at).toISOString().split('T')[0]);
+                                        }}
+                                        className="text-slate-400 hover:text-slate-600 ml-1"
+                                    >
+                                        취소
+                                    </button>
+                                </div>
+                            ) : (
+                                <div
+                                    className="flex items-center gap-2 cursor-pointer hover:text-[var(--color-soft-gold)] transition-colors"
+                                    onClick={() => setIsEditingDate(true)}
+                                    title="날짜 수정하기"
+                                >
+                                    {new Date(session.created_at).toLocaleDateString()} {new Date(session.created_at).toLocaleTimeString().slice(0, -3)}
+                                    <PenTool size={10} className="opacity-50" />
+                                </div>
+                            )}
                         </div>
                         <button
                             onClick={handleSendToClient}
